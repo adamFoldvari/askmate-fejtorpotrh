@@ -4,21 +4,20 @@
   </head>
   <body>
     <h1 align="center">AskMate</h1>
-    <h2>Questions</h2>
+    <h2 align="center">Questions</h2>
     <form action= method="POST">
         <p><button type="submit">New Question</button></p>
     </form>
     <br>
-    <br>
-    <table border="2" style="table-layout:fixed" bgcolor="Gainsboro">
+    <table border="2" bgcolor="Gainsboro">
         <tr align="center">
-            <td width="30"><strong>ID</strong></td>
-            <td width="50"><strong>Submission time</strong></td>
-            <td width="50"><strong>Views</strong></td>
-            <td width="50"><strong>Votes</strong></td>
-            <td width="200"><strong>Title</strong></td>
-            <td width="300"><strong>Message</strong></td>
-            <td width="100"><strong>Image</strong></td>
+            <td><strong>ID</strong></td>
+            <td><strong>Submission time</strong></td>
+            <td><strong>Views</strong></td>
+            <td><strong>Votes</strong></td>
+            <td><strong>Title</strong></td>
+            <td><strong>Message</strong></td>
+            <td><strong>Image</strong></td>
         </tr>
         {% for question in questions %}
             <tr bgcolor = "White">
