@@ -49,8 +49,9 @@ def get_answertable_from_file(file_name):
 
     #  BASE64 decode of 5th and 6th data fields:
     for record in table:
-        record[4] = base64.b64decode(record[4])
-        record[5] = base64.b64decode(record[5])
+        record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
+        record[4] = b64decode(record[4]).decode("utf-8")
+        record[5] = b64decode(record[5]).decode("utf-8")
 
     return table
 
@@ -59,4 +60,3 @@ def get_answertable_from_file(file_name):
 #
 # @file_name: string
 # @table: list of lists of strings
-
