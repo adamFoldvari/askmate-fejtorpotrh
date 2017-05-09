@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>AskMate project - List of questions</title>
+  </head>
+  <body>
+    <h1 align="center">AskMate</h1>
+    <h2>Questions</h2>
+    <form action= method="POST">
+        <p><button type="submit">New Question</button></p>
+    </form>
+    <br>
+    <br>
+    <table border="2" style="table-layout:fixed" bgcolor="Gainsboro">
+        <tr align="center">
+            <td width="30"><strong>ID</strong></td>
+            <td width="50"><strong>Submission time</strong></td>
+            <td width="50"><strong>Views</strong></td>
+            <td width="50"><strong>Votes</strong></td>
+            <td width="200"><strong>Title</strong></td>
+            <td width="300"><strong>Message</strong></td>
+            <td width="100"><strong>Image</strong></td>
+        </tr>
+        {% for question in questions %}
+            <tr bgcolor = "White">
+                <td align="center">{{question[0]}}</td>
+                <td align="center">{{question[1]}}</td>
+                <td align="center">{{question[2]}}</td>
+                <td align="center">{{question[3]}}</td>
+                <td style="word-wrap: break-word;">{{question[4]}}</td>
+                <td style="word-wrap: break-word;">{{question[5]}}</td>
+                <td align="center">{{question[6]}}</td>
+                <td align="center" bgcolor="Gainsboro">
+                    <form action= method=post class=read_question>
+                        <input type=hidden value="{{question[0]}}" name="question_id_to_display"></input>
+                        <button type=submit><img src="/static/eye_icon.png" width="40" height="40" alt="display_question"></button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+  </body>
+</html>
