@@ -11,9 +11,9 @@ def get_questiontable_from_file(file_name):
         lines = file.readlines()
     table = [element.replace("\n", "").split(",") for element in lines]
     for record in table:
-        # Convert UNIX timestamp to readable date
+        # 2nd data field: convert UNIX timestamp to readable date
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
-        # BASE64 decode of 2nd, 5th, 6th and 7th data fields
+        # BASE64 decode of 5th, 6th and 7th data fields
         record[4] = b64decode(record[4]).decode("utf-8")
         record[5] = b64decode(record[5]).decode("utf-8")
         record[6] = b64decode(record[6]).decode("utf-8")
@@ -47,7 +47,7 @@ def get_answertable_from_file(file_name):
         lines = file.readlines()
     table = [element.replace("\n", "").split(",") for element in lines]
 
-    #  BASE64 decode of 5th, 6th and 7th data fields:
+    #  BASE64 decode of 5th and 6th data fields:
     for record in table:
         record[4] = base64.b64decode(record[4])
         record[5] = base64.b64decode(record[5])
