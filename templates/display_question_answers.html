@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ question[4]}} </title>
+    </head>
+    <body>
+        <h2>Question:</h2>
+        <h3>{{ question[4] }} </h3>
+        <p>{{ question[5] }} </p>
+        
+        <form action="{{ url_for('display_q_and_a', question_id=question[0], new_answer=True) }}" method="post" class=edit_answer>
+                <input type=submit value="Answer" name="answer"></input>
+        </form>
+
+        <h2>Answers:</h2>
+        <ul>
+        {% for answer in answers %}
+            <li>
+                <p>{{answer[4]}}
+                    {% if answer[5] %}
+                        -- {{answer[5]}}
+                    {% endif %}
+                </p>
+                <p>
+
+                </p>
+                    
+            </li>
+        {% endfor %}
+        </ul>
+
+        <table border="2" bgcolor="Gainsboro">
+            <tr align="center">
+                <!--<td><strong>ID</strong></td>-->
+                <td><strong>Message</strong></td>
+                <td><strong>Submission time</strong></td>
+                <td><strong>Views</strong></td>
+                <td><strong>Image</strong></td>
+            </tr>
+            {% for answer in answers %}
+                <tr bgcolor = "White">
+                    <!--<td align="center">{{answer[0]}}</td>-->
+                    <td style="word-wrap: break-word;">{{ answer[4] }}</td>
+                    <td align="center">{{ answer[1] }}</td>
+                    <td align="center">{{ answer[2] }}</td>
+                    <td align="word-wrap: break-word;">{{ answer[5] }}</td>
+                    <td align="center" bgcolor="Gainsboro">
+                            <a href=""><img src="/static/eye_icon.png" width="40" height="40" alt="display_question"></a>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
