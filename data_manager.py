@@ -14,10 +14,9 @@ def get_questiontable_from_file(file_name):
         # Convert UNIX timestamp to readable date
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
         # BASE64 decode of 2nd, 5th, 6th and 7th data fields
-        record[4] = b64decode(record[4])
-        record[5] = b64decode(record[5])
-        record[6] = b64decode(record[6])
-        print(table)
+        record[4] = b64decode(record[4]).decode("utf-8")
+        record[5] = b64decode(record[5]).decode("utf-8")
+        record[6] = b64decode(record[6]).decode("utf-8")
     return table
 
 
@@ -30,12 +29,11 @@ def write_questiontable_to_file(file_name, table):
         for record in table:
             for record in table:
                 # Convert readable date to UNIX timestamp
-
+                # record[1] = SOMETHING :)
                 # BASE64 encode of 5th, 6th and 7th data fields:
                 record[4] = base64.b64encode(record[4])
                 record[5] = base64.b64encode(record[5])
                 record[6] = base64.b64encode(record[6])
-
             row = ','.join(record)
             file.write(row + "\n")
 
