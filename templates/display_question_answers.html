@@ -7,24 +7,22 @@
         <h2>Question:</h2>
         <h3>{{ question[4] }} </h3>
         <p>{{ question[5] }} </p>
-        {% if new_answer==False %}
-        <button type="button" id="new_answer" 
-                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br><br>
-        {% else %}
-        <form action="{{ url_for('display_q_and_a', question_id=question[0], new_answer=True) }}" method="post" class="new_answer">
-            <label for="new_answer">Your Answer:</label><br>
-            <textarea rows="4" cols="47" name="new_answer" id="new_answer"></textarea><br><br>
-            <input type="submit" id="Send" value="Send Your Answer">
-        </form>
-        {% endif %}
 
         <h2>Answers:</h2>
         <ul>
         {% for answer in answers %}
             <li>
-                <p>{{answer[4]}}
+                <p>{{answer[4]}}<br>
+                    / views: {{ answer[2] }},
+                    votes: {{ answer[3] }},
+                    {{ answer[1] }}
+                    /
                     {% if answer[5] %}
-                        -- {{answer[5]}}
+
+                        <p>
+                            <a href=""><img src="{{ answer[5] }}" width="40" height="40" alt="display_question"></a>
+                        </p>
+                        {% else %}
                     {% endif %}
                 </p>
                 <p>
@@ -34,28 +32,18 @@
             </li>
         {% endfor %}
         </ul>
+        {% if new_answer==False %}
+        <button type="button" id="new_answer" 
+                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br><br>
+        {% else %}
+        <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
+            <label for="new_answer">Your Answer:</label><br>
+            <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea><br><br>
+            <input type="submit" id="submit" value="Send">
+        </form>
+        {% endif %}
 
-        <table border="2" bgcolor="Gainsboro">
-            <tr align="center">
-                <!--<td><strong>ID</strong></td>-->
-                <td><strong>Message</strong></td>
-                <td><strong>Submission time</strong></td>
-                <td><strong>Views</strong></td>
-                <td><strong>Image</strong></td>
-            </tr>
-            {% for answer in answers %}
-                <tr bgcolor = "White">
-                    <!--<td align="center">{{answer[0]}}</td>-->
-                    <td style="word-wrap: break-word;">{{ answer[4] }}</td>
-                    <td align="center">{{ answer[1] }}</td>
-                    <td align="center">{{ answer[2] }}</td>
-                    <td align="word-wrap: break-word;">{{ answer[5] }}</td>
-                    <td align="center" bgcolor="Gainsboro">
-                            <a href=""><img src="/static/eye_icon.png" width="40" height="40" alt="display_question"></a>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </ul>
+        
+        
     </body>
 </html>

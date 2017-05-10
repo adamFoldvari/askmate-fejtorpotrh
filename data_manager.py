@@ -56,7 +56,10 @@ def get_answertable_from_file(file_name):
     return table
 
 
-# write the ANSWERS @table into a file
-#
-# @file_name: string
-# @table: list of lists of strings
+def write_answer_to_file(file_name, row):
+    '''Write the ANSWERS @table into a file.'''
+    with open(file_name, "a") as file:
+        row[4] = b64encode(str.encode(row[4])).decode('utf-8')
+        row[5] = b64encode(str.encode(row[5])).decode('utf-8')
+        new_row = ','.join(row)
+        file.write(new_row + "\n")
