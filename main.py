@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for
-import time
 import data_manager
+import os
+import time
 
+
+current_file_path = os.path.dirname(os.path.abspath(__file__))
+file_name = current_file_path + '/question.csv'
 app = Flask(__name__)
+
+
+# Listing
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/list', methods=['POST', 'GET'])
+def listing():
+    questions = data_manager.get_questiontable_from_file(file_name)
+    return render_template("questionlist.html", questions=questions)
 
 
 @app.route('/new_question')
@@ -24,6 +36,7 @@ def add_question():
     new_row.append('')
     data_manager.write_questiontable_to_file('question.csv', new_row)
     return redirect('/question/<question_id>')
+
 
 if __name__ == '__main__':
     app.debug = True
