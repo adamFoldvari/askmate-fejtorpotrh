@@ -7,10 +7,16 @@
         <h2>Question:</h2>
         <h3>{{ question[4] }} </h3>
         <p>{{ question[5] }} </p>
-        
-        <form action="{{ url_for('display_q_and_a', question_id=question[0], new_answer=True) }}" method="post" class=edit_answer>
-                <input type=submit value="Answer" name="answer"></input>
+        {% if new_answer==False %}
+        <button type="button" id="new_answer" 
+                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br><br>
+        {% else %}
+        <form action="{{ url_for('display_q_and_a', question_id=question[0], new_answer=True) }}" method="post" class="new_answer">
+            <label for="new_answer">Your Answer:</label><br>
+            <textarea rows="4" cols="47" name="new_answer" id="new_answer"></textarea><br><br>
+            <input type="submit" id="Send" value="Send Your Answer">
         </form>
+        {% endif %}
 
         <h2>Answers:</h2>
         <ul>
