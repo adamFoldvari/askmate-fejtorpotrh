@@ -13,8 +13,9 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
-    questions = data_manager.get_questiontable_from_file(file_name)
-    return render_template("questionlist.html", questions=questions)
+    unordered_questions = data_manager.get_questiontable_from_file(file_name)
+    ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
+    return render_template("questionlist.html", questions=ordered_questions)
 
 
 @app.route('/new_question')
