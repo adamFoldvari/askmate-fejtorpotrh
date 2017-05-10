@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Add new question</title>
+  </head>
+  <body>
+      <h1>Add new question: </h1>
+      <form action='/new_question/add' method='POST'>
+        <label for="question_title"> Question Title: </label>
+        <p><input type="text" name="question_title" id="question_title" required></p>
+        <label for="question"> Your Question </label>
+        <p><textarea rows="8" cols="50" name="question" id="question" minlength="10" required></textarea></p>
+        <p><input type="submit" value="ASK" id="uptaded"></p>
+      </form>
+
+  </body>
+</html>

@@ -29,13 +29,13 @@ def write_questiontable_to_file(file_name, table):
     @table: list of lists of strings'''
     with open(file_name, "w") as file:
         for record in table:
-            for record in table:
-                # Convert readable date to UNIX timestamp
-                # record[1] = SOMETHING :)
-                # BASE64 encode of 5th, 6th and 7th data fields:
-                record[4] = base64.b64encode(record[4])
-                record[5] = base64.b64encode(record[5])
-                record[6] = base64.b64encode(record[6])
+     
+            # Convert readable date to UNIX timestamp
+            # record[1] = SOMETHING :)
+            # BASE64 encode of 5th, 6th and 7th data fields:
+            record[4] = b64encode(record[4])
+            record[5] = b64encode(record[5])
+            record[6] = b64encode(record[6])
             row = ','.join(record)
             file.write(row + "\n")
 
