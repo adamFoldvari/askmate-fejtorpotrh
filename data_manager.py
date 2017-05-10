@@ -26,7 +26,7 @@ def write_questiontable_to_file(file_name, row):
     '''Write the QUESTIONS @table into a file.
 
     @file_name: string
-    @table: list of lists of strings'''
+    @row: list of strings'''
     with open(file_name, "a") as file:
         # Convert readable date to UNIX timestamp
         # record[1] = SOMETHING :)
@@ -50,7 +50,7 @@ def get_answertable_from_file(file_name):
     #  BASE64 decode of 5th and 6th data fields:
     for record in table:
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
-        record[4] = b64decode(record[4]).decode("utf-8")
+        record[4] = Markup(b64decode(record[4]).decode("utf-8").replace("\n", "<br>"))
         record[5] = b64decode(record[5]).decode("utf-8")
 
     return table
@@ -59,7 +59,7 @@ def get_answertable_from_file(file_name):
 def write_answer_to_file(file_name, row):
     '''Write the ANSWERS @table into a file.'''
     with open(file_name, "a") as file:
-        row[4] = b64encode(str.encode(row[4])).decode('utf-8')
+        row[4] = b64encode(str.encode(row[4].strip())).decode('utf-8')
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
         new_row = ','.join(row)
         file.write(new_row + "\n")
@@ -75,9 +75,9 @@ def add_view_number(filename, question_id):
         new_questions = []
         for question in questions:
             if question[0] == str(question_id):
-                question[2] = str(int(question[2])+1)
+                question[2] = str(int(question[2]) + 1)
             question = ','.join(question)
             new_questions.append(question)
     with open(filename, 'w') as file:
         for question in new_questions:
-            file.write(question+'\n')
+            file.write(question + '\n')
