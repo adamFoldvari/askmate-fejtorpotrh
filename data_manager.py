@@ -63,3 +63,21 @@ def write_answer_to_file(file_name, row):
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
         new_row = ','.join(row)
         file.write(new_row + "\n")
+
+
+def add_view_number(filename, question_id):
+    '''add 1 to the view number for the
+    given question_id you should
+    also give a filename as a database'''
+    with open(filename, 'r') as file:
+        questions = file.readlines()
+        questions = [element.replace("\n", "").split(",") for element in questions]
+        new_questions = []
+        for question in questions:
+            if question[0] == str(question_id):
+                question[2] = str(int(question[2])+1)
+            question = ','.join(question)
+            new_questions.append(question)
+    with open(filename, 'w') as file:
+        for question in new_questions:
+            file.write(question+'\n')
