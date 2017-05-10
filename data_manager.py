@@ -3,7 +3,6 @@ from datetime import datetime
 from flask import Markup
 
 
-#
 def get_questiontable_from_file(file_name):
     '''Read the QUESTIONS' file into a @table.
 
@@ -81,3 +80,11 @@ def add_view_number(filename, question_id):
     with open(filename, 'w') as file:
         for question in new_questions:
             file.write(question + '\n')
+
+
+def answer_count(question_id):
+    answers = get_answertable_from_file('answer.csv')
+    questions = get_questiontable_from_file('question.csv')
+    question = [question for question in questions if question_id == question[0]][0]
+    answers_for_question = [answer for answer in answers if answer[3] == question_id]
+    return len(answers_for_question)
