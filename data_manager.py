@@ -22,22 +22,20 @@ def get_questiontable_from_file(file_name):
     return table
 
 
-def write_questiontable_to_file(file_name, table):
+def write_questiontable_to_file(file_name, row):
     '''Write the QUESTIONS @table into a file.
 
     @file_name: string
     @table: list of lists of strings'''
-    with open(file_name, "w") as file:
-        for record in table:
-     
-            # Convert readable date to UNIX timestamp
-            # record[1] = SOMETHING :)
-            # BASE64 encode of 5th, 6th and 7th data fields:
-            record[4] = b64encode(record[4])
-            record[5] = b64encode(record[5])
-            record[6] = b64encode(record[6])
-            row = ','.join(record)
-            file.write(row + "\n")
+    with open(file_name, "a") as file:
+        # Convert readable date to UNIX timestamp
+        # record[1] = SOMETHING :)
+        # BASE64 encode of 5th, 6th and 7th data fields:
+        row[4] = b64encode(str.encode(row[4])).decode('utf-8')
+        row[5] = b64encode(str.encode(row[5])).decode('utf-8')
+        row[6] = b64encode(str.encode(row[6])).decode('utf-8')
+        new_row = ','.join(row)
+        file.write(new_row + "\n")
 
 
 def get_answertable_from_file(file_name):
