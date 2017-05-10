@@ -46,6 +46,7 @@ def display_q_and_a(question_id, new_answer=False):
     answers = data_manager.get_answertable_from_file('answer.csv')
     question = [question for question in questions if question[0] == question_id][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
+    answer_count = data_manager.answer_count(question_id)
     if request.method == "POST":
         answer_id = str(int(answers[-1][0]) + 1)
         time_now = str(int(time.time()))
@@ -60,7 +61,7 @@ def display_q_and_a(question_id, new_answer=False):
     else:
         data_manager.add_view_number("question.csv", question_id)
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
-                           new_answer=new_answer)
+                           new_answer=new_answer, answer_count=answer_count)
 
 if __name__ == '__main__':
     app.debug = True
