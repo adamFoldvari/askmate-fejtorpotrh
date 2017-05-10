@@ -53,11 +53,12 @@ def display_q_and_a(question_id, new_answer=False):
         new_answer_message = request.form["new_answer"]
         image = ""
         new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image]
-        print(new_answer_data)
         data_manager.write_answer_to_file('answer.csv', new_answer_data)
         return redirect(url_for('display_q_and_a', question_id=question_id))
     if request.url.endswith("new_answer"):
         new_answer = True
+    else:
+        data_manager.add_view_number("question.csv", question_id)
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
                            new_answer=new_answer)
 
