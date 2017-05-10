@@ -4,44 +4,58 @@
         <title>{{ question[4]}} </title>
     </head>
     <body>
+        <h1>AskMate</h1>
         <h2>Question:</h2>
         <h3>{{ question[4] }} </h3>
         <p>{{ question[5] }} </p>
+        <p>
+            / views: {{ question[2] }},
+            votes: {{ question[3] }},
+            {{ question[1] }}
+            /
+            {% if question[6] %}
 
+                <p>
+                    <a href=""><img src="/static/{{ question[6] }}" width="40" height="40" alt="Image"></a>
+                </p>
+                {% else %}
+            {% endif %}
+        </p>
+
+        {% if new_answer==False %}
         <h2>Answers:</h2>
         <ul>
         {% for answer in answers %}
             <li>
-                <p>{{answer[4]}}<br>
-                    / views: {{ answer[2] }},
-                    votes: {{ answer[3] }},
+                <p>{{ answer[4] }}<br>
+                    / votes: {{ answer[2] }},
                     {{ answer[1] }}
                     /
                     {% if answer[5] %}
 
                         <p>
-                            <a href=""><img src="{{ answer[5] }}" width="40" height="40" alt="display_question"></a>
+                            <a href="/static/{{ answer[5] }}"><img src="/static/{{ answer[5] }}" width="40" height="40" alt="Image"></a>
                         </p>
                         {% else %}
                     {% endif %}
                 </p>
-                <p>
-
-                </p>
+                <p></p>
                     
             </li>
         {% endfor %}
         </ul>
-        {% if new_answer==False %}
         <button type="button" id="new_answer" 
-                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br><br>
+                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br>
         {% else %}
+        <br>
         <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
             <label for="new_answer">Your Answer:</label><br>
             <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea><br><br>
             <input type="submit" id="submit" value="Send">
         </form>
         {% endif %}
+
+        <p><a href="/">Back to questions</a></p>
 
         
         
