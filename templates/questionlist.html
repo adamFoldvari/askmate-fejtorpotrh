@@ -29,10 +29,7 @@
                 <td style="word-wrap: break-word;">{{question[5]}}</td>
                 <td align="center">{{question[6]}}</td>
                 <td align="center" bgcolor="Gainsboro">
-                    <form action= method=post class=read_question>
-                        <input type=hidden value="{{question[0]}}" name="question_id_to_display"></input>
-                        <button type=submit><img src="/static/eye_icon.png" width="40" height="40" alt="display_question"></button>
-                    </form>
+                    <a href="/question/{{question[0]}}"><img src="/static/eye_icon.png" width="40" height="40" alt="display_question"></a>
                 </td>
             </tr>
         {% endfor %}
