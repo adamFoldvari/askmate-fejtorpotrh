@@ -11,36 +11,37 @@ app = Flask(__name__)
 sorting_reverse = [1, 1, 1]
 
 
+def table_sort(unordered_q, field_num):
+    field_number = int(field_num)
+    if sorting_reverse[field_number-1] == 0:
+        rev = False
+    elif sorting_reverse[field_number-1] == 1:
+        rev = True
+    if field_number == 2 or field_number == 3:
+        ordered_q = sorted(unordered_q, key=lambda q: int(q[field_number]),
+                           reverse=rev)
+    elif field_number == 1:
+        ordered_q = sorted(unordered_q, key=lambda q: q[field_number],
+                           reverse=rev)
+    if sorting_reverse[field_number-1] == 1:
+        sorting_reverse[field_number-1] = 0
+    elif sorting_reverse[field_number-1] == 0:
+        sorting_reverse[field_number-1] = 1
+    return ordered_q
+
+
 # Listing
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
+    unordered_questions = data_manager.get_questiontable_from_file(file_name)
     if request.method == "POST":
-        unordered_questions = data_manager.get_questiontable_from_file(file_name)
-        field_number = int(request.form['field_number'])
-        if sorting_reverse[field_number-1] == 0:
-            rev = False
-        elif sorting_reverse[field_number-1] == 1:
-            rev = True
-        if field_number == 2 or field_number == 3:
-            ordered_questions = sorted(unordered_questions, key=lambda q: int(q[field_number]),
-                                       reverse=rev)
-        elif field_number == 1:
-            ordered_questions = sorted(unordered_questions, key=lambda q: q[field_number],
-                                       reverse=rev)
-        if sorting_reverse[field_number-1] == 1:
-            sorting_reverse[field_number-1] = 0
-        elif sorting_reverse[field_number-1] == 0:
-            sorting_reverse[field_number-1] = 1
-        answer_count_list = data_manager.answer_count
-        return render_template("questionlist.html",
-                               questions=ordered_questions, answer_count_list=answer_count_list)
+        ordered_questions = table_sort(unordered_questions, request.form['field_number'])
     else:
-        unordered_questions = data_manager.get_questiontable_from_file(file_name)
         ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
-        answer_count_list = data_manager.answer_count
-        return render_template("questionlist.html",
-                               questions=ordered_questions, answer_count_list=answer_count_list)
+    answer_count_list = data_manager.answer_count
+    return render_template("questionlist.html",
+                           questions=ordered_questions, answer_count_list=answer_count_list)
 
 
 @app.route('/new_question')
