@@ -88,3 +88,31 @@ def answer_count(question_id):
     question = [question for question in questions if question_id == question[0]][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
     return len(answers_for_question)
+
+
+def delete_question_and_answers(question_id):
+    with open('question.csv', 'r') as file:
+        questions = file.readlines()
+        questions = [element.replace("\n", "").split(",") for element in questions]
+        new_questions = []
+        for question in questions:
+            if question[0] != question_id:
+                question = ','.join(question)
+                new_questions.append(question)
+
+    with open('question.csv', 'w') as file:
+        for question in new_questions:
+            file.write(question + '\n')
+
+    with open('answer.csv', 'r') as file:
+        answers = file.readlines()
+        answers = [element.replace("\n", "").split(",") for element in answers]
+        new_answers = []
+        for answer in answers:
+            if answer[3] != question_id:
+                answer = ','.join(answer)
+                new_answers.append(answer)
+
+    with open('answer.csv', 'w') as file:
+        for answer in new_answers:
+            file.write(answer + '\n')

@@ -69,6 +69,12 @@ def view_counter(question_id):
     data_manager.add_view_number("question.csv", question_id)
     return redirect(url_for('display_q_and_a', question_id=question_id))
 
+
+@app.route('/question/<question_id>/delete')
+def delete_question(question_id):
+    data_manager.delete_question_and_answers(question_id)
+    return redirect('/')
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
