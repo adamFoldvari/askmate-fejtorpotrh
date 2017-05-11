@@ -4,8 +4,6 @@ import os
 import time
 
 
-current_file_path = os.path.dirname(os.path.abspath(__file__))
-file_name = current_file_path + '/question.csv'
 app = Flask(__name__)
 
 sorting_reverse = [1, 1, 1]
@@ -16,11 +14,11 @@ sorting_reverse = [1, 1, 1]
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
     if request.method == "POST":
-        unordered_questions = data_manager.get_questiontable_from_file(file_name)
+        unordered_questions = data_manager.get_questiontable_from_file()
         field_number = int(request.form['field_number'])
-        if sorting_reverse[field_number-1] == 0:
+        if sorting_reverse[field_number - 1] == 0:
             rev = False
-        elif sorting_reverse[field_number-1] == 1:
+        elif sorting_reverse[field_number - 1] == 1:
             rev = True
         if field_number == 2 or field_number == 3:
             ordered_questions = sorted(unordered_questions, key=lambda q: int(q[field_number]),
@@ -28,15 +26,15 @@ def listing():
         elif field_number == 1:
             ordered_questions = sorted(unordered_questions, key=lambda q: q[field_number],
                                        reverse=rev)
-        if sorting_reverse[field_number-1] == 1:
-            sorting_reverse[field_number-1] = 0
-        elif sorting_reverse[field_number-1] == 0:
-            sorting_reverse[field_number-1] = 1
+        if sorting_reverse[field_number - 1] == 1:
+            sorting_reverse[field_number - 1] = 0
+        elif sorting_reverse[field_number - 1] == 0:
+            sorting_reverse[field_number - 1] = 1
         answer_count_list = data_manager.answer_count
         return render_template("questionlist.html",
                                questions=ordered_questions, answer_count_list=answer_count_list)
     else:
-        unordered_questions = data_manager.get_questiontable_from_file(file_name)
+        unordered_questions = data_manager.get_questiontable_from_file()
         ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
         answer_count_list = data_manager.answer_count
         return render_template("questionlist.html",
@@ -50,7 +48,7 @@ def question_sheet():
 
 @app.route('/new_question/add', methods=['POST'])
 def add_question():
-    table = data_manager.get_questiontable_from_file('question.csv')
+    table = data_manager.get_questiontable_from_file()
     new_row = []
     if table:
         last_id = int(table[-1][0])
@@ -63,15 +61,15 @@ def add_question():
     new_row.append(request.form['question_title'])
     new_row.append(request.form['question'])
     new_row.append('')
-    data_manager.write_questiontable_to_file('question.csv', new_row)
+    data_manager.write_questiontable_to_file(new_row)
     return redirect(url_for('display_q_and_a', question_id=new_row[0]))
 
 
 @app.route('/question/<question_id>/new_answer', methods=["GET", "POST"])
 @app.route('/question/<question_id>', methods=["GET", "POST"])
 def display_q_and_a(question_id, new_answer=False):
-    questions = data_manager.get_questiontable_from_file('question.csv')
-    answers = data_manager.get_answertable_from_file('answer.csv')
+    questions = data_manager.get_questiontable_from_file()
+    answers = data_manager.get_answertable_from_file()
     question = [question for question in questions if question[0] == question_id][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
     answer_count = data_manager.answer_count(question_id)
@@ -85,7 +83,7 @@ def display_q_and_a(question_id, new_answer=False):
         new_answer_message = request.form["new_answer"]
         image = ""
         new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image]
-        data_manager.write_answer_to_file('answer.csv', new_answer_data)
+        data_manager.write_answer_to_file(new_answer_data)
         return redirect(url_for('display_q_and_a', question_id=question_id))
     if request.url.endswith("new_answer"):
         new_answer = True
@@ -96,7 +94,7 @@ def display_q_and_a(question_id, new_answer=False):
 
 @app.route('/question/<question_id>/viewcount')
 def view_counter(question_id):
-    data_manager.add_view_number("question.csv", question_id)
+    data_manager.add_view_number(question_id)
     return redirect(url_for('display_q_and_a', question_id=question_id))
 
 

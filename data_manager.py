@@ -4,8 +4,7 @@ from flask import Markup
 
 
 def read_raw_data(file_name):
-    '''Reads the lines from the csv file
-    without decodeing'''
+    '''Reads the lines from the csv file without decodeing'''
     with open(file_name) as file:
         data_list = file.readlines()
         data_list = [element.replace("\n", "").split(",") for element in data_list]
@@ -14,20 +13,19 @@ def read_raw_data(file_name):
 
 
 def write_raw_data(file_name, table):
-    '''Writes the lines from the csv file
-    without decodeing'''
+    '''Writes the lines from the csv file without decodeing'''
     with open(file_name, 'w') as file:
         for element in table:
             file.write(element + '\n')
 
 
-def get_questiontable_from_file(file_name):
+def get_questiontable_from_file():
     '''Read the QUESTIONS' file into a @table.
 
     @file_name: string
-    @table: list of lists of strings'''
-
-    table = read_raw_data(file_name)
+    @table: list of lists of strings
+    '''
+    table = read_raw_data('question.csv')
 
     for record in table:
         # 2nd data field: convert UNIX timestamp to readable date
@@ -40,13 +38,13 @@ def get_questiontable_from_file(file_name):
     return table
 
 
-def write_questiontable_to_file(file_name, row):
-    '''Write the QUESTIONS @table into a file.
+def write_questiontable_to_file(row):
+    '''Write the QUESTIONS @row into a file.
 
     @file_name: string
-    @row: list of strings'''
-
-    with open(file_name, "a") as file:
+    @row: list of strings
+    '''
+    with open('question.csv', "a") as file:
         # Convert readable date to UNIX timestamp
         # BASE64 encode of 5th, 6th and 7th data fields:
         row[4] = b64encode(str.encode(row[4])).decode('utf-8')
@@ -56,13 +54,13 @@ def write_questiontable_to_file(file_name, row):
         file.write(new_row + "\n")
 
 
-def get_answertable_from_file(file_name):
+def get_answertable_from_file():
     '''Read the ANSWERS file into a @table.
 
     @file_name: string
-    @table: list of lists of strings'''
-
-    table = read_raw_data(file_name)
+    @table: list of lists of strings
+    '''
+    table = read_raw_data('answer.csv')
     #  BASE64 decode of 5th and 6th data fields:
     for record in table:
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
@@ -72,19 +70,21 @@ def get_answertable_from_file(file_name):
     return table
 
 
-def write_answer_to_file(file_name, row):
-    '''Write the ANSWERS @table into a file.'''
-    with open(file_name, "a") as file:
+def write_answer_to_file(row):
+    '''Write the ANSWERS @row into a file.'''
+    with open('answer.csv', "a") as file:
         row[4] = b64encode(str.encode(row[4].strip())).decode('utf-8')
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
         new_row = ','.join(row)
         file.write(new_row + "\n")
 
 
-def add_view_number(file_name, question_id):
-    '''add 1 to the view number for the
-    given question_id you should
-    also give a filename as a database'''
+def add_view_number(question_id):
+    '''Add 1 to the view number for the given question_id.
+
+    You should also give a filename as a database.
+    '''
+    file_name = 'question.csv'
     questions = read_raw_data(file_name)
     new_questions = []
 
@@ -98,10 +98,9 @@ def add_view_number(file_name, question_id):
 
 
 def answer_count(question_id):
-    '''gives the number of answers exists
-    for the question with the given id'''
-    answers = get_answertable_from_file('answer.csv')
-    questions = get_questiontable_from_file('question.csv')
+    '''Gives the number of answers exists for the question with the given id.'''
+    answers = get_answertable_from_file()
+    questions = get_questiontable_from_file()
     question = [question for question in questions if question_id == question[0]][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
 
@@ -109,8 +108,7 @@ def answer_count(question_id):
 
 
 def delete_question_and_answers(question_id):
-    '''deletes the question with the given id
-    and all existing answers'''
+    '''Delete the question with the given id and all existing answers.'''
     questions = read_raw_data('question.csv')
     new_questions = []
     for question in questions:
