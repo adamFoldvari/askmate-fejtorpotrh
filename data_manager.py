@@ -119,8 +119,6 @@ def add_view_number(question_id):
 def answer_count(question_id):
     '''Give back the number of the answers to the question with the given id.'''
     answers = get_answertable_from_file()
-    questions = get_questiontable_from_file()
-    question = [question for question in questions if question_id == question[0]][0]
     answers_to_question = [answer for answer in answers if answer[3] == question_id]
 
     return len(answers_to_question)
