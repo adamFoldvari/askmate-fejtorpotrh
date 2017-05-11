@@ -3,6 +3,28 @@ from datetime import datetime
 from flask import Markup
 
 
+sorting_reverse = [1, 1, 1]
+
+
+def table_sort(unordered_q, field_num):
+    field_number = int(field_num)
+    if sorting_reverse[field_number - 1] == 0:
+        rev = False
+    elif sorting_reverse[field_number - 1] == 1:
+        rev = True
+    if field_number == 2 or field_number == 3:
+        ordered_q = sorted(unordered_q, key=lambda q: int(q[field_number]),
+                           reverse=rev)
+    elif field_number == 1:
+        ordered_q = sorted(unordered_q, key=lambda q: q[field_number],
+                           reverse=rev)
+    if sorting_reverse[field_number - 1] == 1:
+        sorting_reverse[field_number - 1] = 0
+    elif sorting_reverse[field_number - 1] == 0:
+        sorting_reverse[field_number - 1] = 1
+    return ordered_q
+
+
 def read_raw_data(file_name):
     '''Reads the lines from the csv file without decodeing'''
     with open(file_name) as file:
