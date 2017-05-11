@@ -3,30 +3,31 @@ from datetime import datetime
 from flask import Markup
 
 
-sorting_reverse = [1, 1, 1]
+SORTING_REVERSE = [0, 0, 0]
 
 
 def table_sort(unordered_q, field_num):
+    '''Sort the table by the given field number.'''
     field_number = int(field_num)
-    if sorting_reverse[field_number - 1] == 0:
+
+    if SORTING_REVERSE[field_number - 1] == 0:
         rev = False
-    elif sorting_reverse[field_number - 1] == 1:
+        SORTING_REVERSE[field_number - 1] = 1
+    elif SORTING_REVERSE[field_number - 1] == 1:
         rev = True
+        SORTING_REVERSE[field_number - 1] = 0
+
     if field_number == 2 or field_number == 3:
         ordered_q = sorted(unordered_q, key=lambda q: int(q[field_number]),
                            reverse=rev)
     elif field_number == 1:
         ordered_q = sorted(unordered_q, key=lambda q: q[field_number],
                            reverse=rev)
-    if sorting_reverse[field_number - 1] == 1:
-        sorting_reverse[field_number - 1] = 0
-    elif sorting_reverse[field_number - 1] == 0:
-        sorting_reverse[field_number - 1] = 1
     return ordered_q
 
 
 def read_raw_data(file_name):
-    '''Reads the lines from the csv file without decodeing'''
+    '''Read the lines from the csv file without decoding'''
     with open(file_name) as file:
         data_list = file.readlines()
         data_list = [element.replace("\n", "").split(",") for element in data_list]
@@ -35,7 +36,7 @@ def read_raw_data(file_name):
 
 
 def write_raw_data(file_name, table):
-    '''Writes the lines from the csv file without decodeing'''
+    '''Write the lines from the csv file without decoding'''
     with open(file_name, 'w') as file:
         for element in table:
             file.write(element + '\n')
@@ -61,13 +62,12 @@ def get_questiontable_from_file():
 
 
 def write_questiontable_to_file(row):
-    '''Write the QUESTIONS @row into a file.
+    '''Write the QUESTION @row into a file.
 
     @file_name: string
     @row: list of strings
     '''
     with open('question.csv', "a") as file:
-        # Convert readable date to UNIX timestamp
         # BASE64 encode of 5th, 6th and 7th data fields:
         row[4] = b64encode(str.encode(row[4])).decode('utf-8')
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
@@ -93,7 +93,7 @@ def get_answertable_from_file():
 
 
 def write_answer_to_file(row):
-    '''Write the ANSWERS @row into a file.'''
+    '''Write the ANSWER @row into a file.'''
     with open('answer.csv', "a") as file:
         row[4] = b64encode(str.encode(row[4].strip())).decode('utf-8')
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
@@ -102,10 +102,7 @@ def write_answer_to_file(row):
 
 
 def add_view_number(question_id):
-    '''Add 1 to the view number for the given question_id.
-
-    You should also give a filename as a database.
-    '''
+    '''Increase the view number of the question with the given question_id by 1.'''
     file_name = 'question.csv'
     questions = read_raw_data(file_name)
     new_questions = []
@@ -120,13 +117,13 @@ def add_view_number(question_id):
 
 
 def answer_count(question_id):
-    '''Gives the number of answers exists for the question with the given id.'''
+    '''Give back the number of the answers to the question with the given id.'''
     answers = get_answertable_from_file()
     questions = get_questiontable_from_file()
     question = [question for question in questions if question_id == question[0]][0]
-    answers_for_question = [answer for answer in answers if answer[3] == question_id]
+    answers_to_question = [answer for answer in answers if answer[3] == question_id]
 
-    return len(answers_for_question)
+    return len(answers_to_question)
 
 
 def delete_question_and_answers(question_id):
