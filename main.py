@@ -15,7 +15,8 @@ app = Flask(__name__)
 def listing():
     unordered_questions = data_manager.get_questiontable_from_file(file_name)
     ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
-    return render_template("questionlist.html", questions=ordered_questions)
+    answer_count_list = data_manager.answer_count
+    return render_template("questionlist.html", questions=ordered_questions, answer_count_list=answer_count_list)
 
 
 @app.route('/new_question')
