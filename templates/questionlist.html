@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>AskMate project - List of questions</title>
@@ -12,6 +13,7 @@
         <tr align="center">
             <td><strong>ID</strong></td>
             <td><strong>Submission time</strong></td>
+            <td><strong>Answers</strong></td>
             <td><strong>Views</strong></td>
             <td><strong>Votes</strong></td>
             <td><strong>Title</strong></td>
@@ -22,11 +24,16 @@
             <tr bgcolor = "White">
                 <td align="center">{{question[0]}}</td>
                 <td align="center">{{question[1]}}</td>
+                <td align="center">{{ answer_count_list(question[0]) }}</td>
                 <td align="center">{{question[2]}}</td>
                 <td align="center">{{question[3]}}</td>
                 <td style="word-wrap: break-word;">{{question[4]}}</td>
                 <td style="word-wrap: break-word;">{{question[5]}}</td>
-                <td align="center"><img src="{{question[6]}}" width="60" height="60" alt="image"></td>
+                <td align="center">
+                {% if question[6] %}
+                    <img src="static/{{question[6]}}" width="60" height="60" alt="image">
+                {% endif %}
+                </td>
                 <td align="center" bgcolor="Gainsboro">
                     <a href="/question/{{question[0]}}"><img src="/static/icons/eye_icon.png" width="40" height="40" alt="display_question"></a>
                 </td>
