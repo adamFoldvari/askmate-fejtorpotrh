@@ -3,14 +3,29 @@ from datetime import datetime
 from flask import Markup
 
 
+# Helper functions
+def read_raw_data(file_name):
+    with open(file_name) as file:
+        data_list = file.readlines()
+        data_list = [element.replace("\n", "").split(",") for element in data_list]
+
+    return data_list
+
+
+def write_raw_data(file_name, table):
+    with open(file_name, 'w') as file:
+        for element in table:
+            file.write(element + '\n')
+
+
 def get_questiontable_from_file(file_name):
     '''Read the QUESTIONS' file into a @table.
 
     @file_name: string
     @table: list of lists of strings'''
-    with open(file_name, "r") as file:
-        lines = file.readlines()
-    table = [element.replace("\n", "").split(",") for element in lines]
+
+    table = read_raw_data(file_name)
+
     for record in table:
         # 2nd data field: convert UNIX timestamp to readable date
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
@@ -18,6 +33,7 @@ def get_questiontable_from_file(file_name):
         record[4] = b64decode(record[4]).decode("utf-8")
         record[5] = Markup(b64decode(record[5]).decode("utf-8").replace("\n", "<br>"))
         record[6] = b64decode(record[6]).decode("utf-8")
+
     return table
 
 
@@ -26,6 +42,7 @@ def write_questiontable_to_file(file_name, row):
 
     @file_name: string
     @row: list of strings'''
+
     with open(file_name, "a") as file:
         # Convert readable date to UNIX timestamp
         # record[1] = SOMETHING :)
@@ -42,10 +59,8 @@ def get_answertable_from_file(file_name):
 
     @file_name: string
     @table: list of lists of strings'''
-    with open(file_name, "r") as file:
-        lines = file.readlines()
-    table = [element.replace("\n", "").split(",") for element in lines]
 
+    table = read_raw_data(file_name)
     #  BASE64 decode of 5th and 6th data fields:
     for record in table:
         record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
@@ -64,22 +79,23 @@ def write_answer_to_file(file_name, row):
         file.write(new_row + "\n")
 
 
-def add_view_number(filename, question_id):
+def add_view_number(file_name, question_id):
     '''add 1 to the view number for the
     given question_id you should
     also give a filename as a database'''
-    with open(filename, 'r') as file:
-        questions = file.readlines()
-        questions = [element.replace("\n", "").split(",") for element in questions]
-        new_questions = []
-        for question in questions:
-            if question[0] == str(question_id):
-                question[2] = str(int(question[2]) + 1)
-            question = ','.join(question)
-            new_questions.append(question)
-    with open(filename, 'w') as file:
-        for question in new_questions:
-            file.write(question + '\n')
+    # with open(filename, 'r') as file:
+    #     questions = file.readlines()
+    #     questions = [element.replace("\n", "").split(",") for element in questions]
+    questions = read_raw_data(file_name)
+    new_questions = []
+
+    for question in questions:
+        if question[0] == str(question_id):
+            question[2] = str(int(question[2]) + 1)
+        question = ','.join(question)
+        new_questions.append(question)
+
+    write_raw_data(file_name, new_questions)
 
 
 def answer_count(question_id):
@@ -87,32 +103,25 @@ def answer_count(question_id):
     questions = get_questiontable_from_file('question.csv')
     question = [question for question in questions if question_id == question[0]][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
+
     return len(answers_for_question)
 
 
 def delete_question_and_answers(question_id):
-    with open('question.csv', 'r') as file:
-        questions = file.readlines()
-        questions = [element.replace("\n", "").split(",") for element in questions]
-        new_questions = []
-        for question in questions:
-            if question[0] != question_id:
-                question = ','.join(question)
-                new_questions.append(question)
 
-    with open('question.csv', 'w') as file:
-        for question in new_questions:
-            file.write(question + '\n')
+    questions = read_raw_data('question.csv')
+    new_questions = []
+    for question in questions:
+        if question[0] != question_id:
+            question = ','.join(question)
+            new_questions.append(question)
 
-    with open('answer.csv', 'r') as file:
-        answers = file.readlines()
-        answers = [element.replace("\n", "").split(",") for element in answers]
-        new_answers = []
-        for answer in answers:
-            if answer[3] != question_id:
-                answer = ','.join(answer)
-                new_answers.append(answer)
+    write_raw_data('question.csv', new_questions)
 
-    with open('answer.csv', 'w') as file:
-        for answer in new_answers:
-            file.write(answer + '\n')
+    answers = read_raw_data('answer.csv')
+    new_answers = []
+    for answer in answers:
+        if answer[3] != question_id:
+            answer = ','.join(answer)
+            new_answers.append(answer)
+    write_raw_data('answer.csv', new_answers)
