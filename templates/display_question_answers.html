@@ -9,38 +9,34 @@
         <h3>{{ question[4] }} </h3>
         <p>{{ question[5] }} </p>
         <p>
+            {% if question[6] %}
+                <p><a href=""><img src="/static/{{ question[6] }}" width="60" alt="Image"></a></p>
+            {% endif %}
+
             / answers: {{  answer_count }},
             views: {{ question[2] }},
             votes: {{ question[3] }},
             {{ question[1] }}
             /
-            {% if question[6] %}
-
-                <p>
-                    <a href=""><img src="/static/{{ question[6] }}" width="40" height="40" alt="Image"></a>
-                </p>
-                {% else %}
-            {% endif %}
         </p>
 
         {% if new_answer==False %}
+        {% if answer_count %}
         <h2>Answers:</h2>
+        {% endif %}
         <ul>
         {% for answer in answers %}
             <li>
                 <p>{{ answer[4] }}<br>
+
+                    {% if answer[5] %}
+                        <a href="/static/{{ answer[5] }}" target="_blank"><img src="/static/{{ answer[5] }}" width="60" alt="Image"></a><br>
+                    {% endif %}
                     / votes: {{ answer[2] }},
                     {{ answer[1] }}
                     /
-                    {% if answer[5] %}
-
-                        <p>
-                            <a href="/static/{{ answer[5] }}" target="_blank"><img src="/static/{{ answer[5] }}" width="40" height="40" alt="Image"></a>
-                        </p>
-                        {% else %}
-                    {% endif %}
                 </p>
-                <p></p>
+                <br>
                     
             </li>
         {% endfor %}
