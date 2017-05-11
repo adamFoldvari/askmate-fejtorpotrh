@@ -28,7 +28,10 @@ def question_sheet():
 def add_question():
     table = data_manager.get_questiontable_from_file('question.csv')
     new_row = []
-    last_id = int(table[-1][0])
+    if table:
+        last_id = int(table[-1][0])
+    else:
+        last_id = 0
     new_row.append(str(last_id + 1))
     new_row.append(str(int(time.time())))
     for _ in range(2):
@@ -49,7 +52,10 @@ def display_q_and_a(question_id, new_answer=False):
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
     answer_count = data_manager.answer_count(question_id)
     if request.method == "POST":
-        answer_id = str(int(answers[-1][0]) + 1)
+        if answers:
+            answer_id = str(int(answers[-1][0]) + 1)
+        else:
+            answer_id = "0"
         time_now = str(int(time.time()))
         votes = "0"
         new_answer_message = request.form["new_answer"]
