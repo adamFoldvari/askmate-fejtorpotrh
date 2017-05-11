@@ -3,8 +3,9 @@ from datetime import datetime
 from flask import Markup
 
 
-# Helper functions
 def read_raw_data(file_name):
+    '''Reads the lines from the csv file
+    without decodeing'''
     with open(file_name) as file:
         data_list = file.readlines()
         data_list = [element.replace("\n", "").split(",") for element in data_list]
@@ -13,6 +14,8 @@ def read_raw_data(file_name):
 
 
 def write_raw_data(file_name, table):
+    '''Writes the lines from the csv file
+    without decodeing'''
     with open(file_name, 'w') as file:
         for element in table:
             file.write(element + '\n')
@@ -45,7 +48,6 @@ def write_questiontable_to_file(file_name, row):
 
     with open(file_name, "a") as file:
         # Convert readable date to UNIX timestamp
-        # record[1] = SOMETHING :)
         # BASE64 encode of 5th, 6th and 7th data fields:
         row[4] = b64encode(str.encode(row[4])).decode('utf-8')
         row[5] = b64encode(str.encode(row[5])).decode('utf-8')
@@ -83,9 +85,6 @@ def add_view_number(file_name, question_id):
     '''add 1 to the view number for the
     given question_id you should
     also give a filename as a database'''
-    # with open(filename, 'r') as file:
-    #     questions = file.readlines()
-    #     questions = [element.replace("\n", "").split(",") for element in questions]
     questions = read_raw_data(file_name)
     new_questions = []
 
@@ -99,6 +98,8 @@ def add_view_number(file_name, question_id):
 
 
 def answer_count(question_id):
+    '''gives the number of answers exists
+    for the question with the given id'''
     answers = get_answertable_from_file('answer.csv')
     questions = get_questiontable_from_file('question.csv')
     question = [question for question in questions if question_id == question[0]][0]
@@ -108,7 +109,8 @@ def answer_count(question_id):
 
 
 def delete_question_and_answers(question_id):
-
+    '''deletes the question with the given id
+    and all existing answers'''
     questions = read_raw_data('question.csv')
     new_questions = []
     for question in questions:
@@ -124,4 +126,5 @@ def delete_question_and_answers(question_id):
         if answer[3] != question_id:
             answer = ','.join(answer)
             new_answers.append(answer)
+
     write_raw_data('answer.csv', new_answers)
