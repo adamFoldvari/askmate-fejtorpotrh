@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import os
-import time
+import datetime
 
 
 app = Flask(__name__)
@@ -35,12 +35,13 @@ def add_question():
     else:
         last_id = 0
     new_row.append(str(last_id + 1))
-    new_row.append(str(int(time.time())))
+    dt = datetime.datetime.now()
+    new_row.append(dt)
     for _ in range(2):
         new_row.append(str(0))
     new_row.append(request.form['question_title'])
     new_row.append(request.form['question'])
-    new_row.append('')
+    new_row.append(None)
     data_manager.write_questiontable_to_file(new_row)
     return redirect(url_for('display_q_and_a', question_id=new_row[0]))
 
@@ -50,7 +51,7 @@ def add_question():
 def display_q_and_a(question_id, new_answer=False):
     questions = data_manager.get_questiontable_from_file()
     answers = data_manager.get_answertable_from_file()
-    question = [question for question in questions if question[0] == question_id][0]
+    question = [question for question in questions if question[0] == int(question_id)][0]
     answers_for_question = [answer for answer in answers if answer[3] == question_id]
     answer_count = data_manager.answer_count(question_id)
     if request.method == "POST":
@@ -61,7 +62,7 @@ def display_q_and_a(question_id, new_answer=False):
         time_now = str(int(time.time()))
         votes = "0"
         new_answer_message = request.form["new_answer"]
-        image = ""
+        image = None
         new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image]
         data_manager.write_answer_to_file(new_answer_data)
         return redirect(url_for('display_q_and_a', question_id=question_id))

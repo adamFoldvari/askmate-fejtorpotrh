@@ -1,9 +1,45 @@
 from base64 import b64decode, b64encode
 from datetime import datetime
 from flask import Markup
+import psycopg2
 
 
 SORTING_REVERSE = [0, 0, 0]
+
+
+def connect_database():
+    try:
+        # setup connection string
+        connect_str = "dbname='gergo' user='gergo' host='localhost'"
+        # use our connection values to establish a connection
+        conn = psycopg2.connect(connect_str)
+        # set autocommit option, to do every query when we call it
+        conn.autocommit = True
+        # create a psycopg2 cursor that can execute queries
+        cursor = conn.cursor()
+    except Exception as e:
+        print("Uh oh, can't connect. Invalid dbname, user or password?")
+        print(e)
+
+    return cursor, conn
+
+
+def query_result(*query):
+    try:
+        cursor, conn = connect_database()
+        cursor.execute(*query)
+        rows = cursor.fetchall()
+    except psycopg2.OperationalError as e:
+        print(e)
+    except psycopg2.ProgrammingError as e:
+        print(e)
+        print("Nothing to print")
+        rows = ""
+    finally:
+        if conn:
+            conn.close()
+
+    return rows
 
 
 def table_sort(unordered_q, field_num):
@@ -18,11 +54,9 @@ def table_sort(unordered_q, field_num):
         SORTING_REVERSE[field_number - 1] = 0
 
     if field_number == 2 or field_number == 3:
-        ordered_q = sorted(unordered_q, key=lambda q: int(q[field_number]),
-                           reverse=rev)
+        ordered_q = sorted(unordered_q, key=lambda q: int(q[field_number]), reverse=rev)
     elif field_number == 1:
-        ordered_q = sorted(unordered_q, key=lambda q: q[field_number],
-                           reverse=rev)
+        ordered_q = sorted(unordered_q, key=lambda q: q[field_number], reverse=rev)
     return ordered_q
 
 
@@ -48,15 +82,11 @@ def get_questiontable_from_file():
     @file_name: string
     @table: list of lists of strings
     '''
-    table = read_raw_data('question.csv')
+    table = query_result("""SELECT * FROM question;""")
 
-    for record in table:
-        # 2nd data field: convert UNIX timestamp to readable date
-        record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
-        # BASE64 decode of 5th, 6th and 7th data fields
-        record[4] = b64decode(record[4]).decode("utf-8")
-        record[5] = Markup(b64decode(record[5]).decode("utf-8").replace("\n", "<br>"))
-        record[6] = b64decode(record[6]).decode("utf-8")
+    for i in range(len(table)):
+        table[i] = list(table[i])
+        table[i][5] = Markup(table[i][5].replace("\n", "<br>"))
 
     return table
 
@@ -67,13 +97,9 @@ def write_questiontable_to_file(row):
     @file_name: string
     @row: list of strings
     '''
-    with open('question.csv', "a") as file:
-        # BASE64 encode of 5th, 6th and 7th data fields:
-        row[4] = b64encode(str.encode(row[4])).decode('utf-8')
-        row[5] = b64encode(str.encode(row[5])).decode('utf-8')
-        row[6] = b64encode(str.encode(row[6])).decode('utf-8')
-        new_row = ','.join(row)
-        file.write(new_row + "\n")
+
+    query_result("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+                    VALUES(%s, %s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5], row[6]))
 
 
 def get_answertable_from_file():
@@ -83,11 +109,8 @@ def get_answertable_from_file():
     @table: list of lists of strings
     '''
     table = read_raw_data('answer.csv')
-    #  BASE64 decode of 5th and 6th data fields:
     for record in table:
-        record[1] = datetime.fromtimestamp(int(record[1])).strftime('%Y-%m-%d %H:%M:%S')
-        record[4] = Markup(b64decode(record[4]).decode("utf-8").replace("\n", "<br>"))
-        record[5] = b64decode(record[5]).decode("utf-8")
+        record[4] = Markup(record[4].replace("\n", "<br>"))
 
     return table
 
@@ -143,3 +166,14 @@ def delete_question_and_answers(question_id):
             new_answers.append(answer)
 
     write_raw_data('answer.csv', new_answers)
+
+
+def print_table(rows):
+    table = []
+
+    for row in rows:
+        row = str(row).strip("()").split(", ")
+        table.append(row)
+
+    for row in table:
+        print(", ".join(row))
