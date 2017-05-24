@@ -12,7 +12,7 @@ def connect_database():
     try:
         # setup connection string
         connect_str = "dbname={} user={} host='localhost'".format(
-            db_con_data()[0], db_con_data()[1])
+            db_con_data()['dbname'], db_con_data()['user'])
         # use our connection values to establish a connection
         conn = psycopg2.connect(connect_str)
         # set autocommit option, to do every query when we call it
