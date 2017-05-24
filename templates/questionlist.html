@@ -14,6 +14,7 @@
             <input type="submit" value="Submit">
         </form>
     </p>
+    {% if questions %}
     <table border="2" bgcolor="Gainsboro">
         <tr align="center">
             <td>ID
@@ -90,6 +91,10 @@
             </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <p>No result.</p>
+    {% endif %}
+
     {% if create_link %}
         <a href='/list'> Show all questions </a>
     {% endif %}
