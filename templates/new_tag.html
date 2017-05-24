@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Add new tag</title>
+  </head>
+  <body>
+    <h1>Add new tag</h1>
+    {% if existing_tags %}
+    <h2>Choose from existing tags:</h2>
+    <ul>
+    {% for existing_tag in existing_tags %}
+      <p><a href="/question/{{ question_id }}/existing-tag/{{ existing_tag[0]}}">{{ existing_tag[1] }}</a></p>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h2>Create a new tag:</h2>
+    <form action='/question/{{ question_id }}/new-tag/add' method='POST'>
+        <p><input type="text" name="name" required></p>
+        <p><input type="submit" value="Create tag" id="create_tag"></p>
+    </form>
+    <p><a href="/">Back to questions</a></p>
+  </body>

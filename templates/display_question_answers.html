@@ -19,6 +19,19 @@
             {{ question[1] }}
             /
         </p>
+
+        <p>
+            <a href="/question/{{ question[0] }}/new-tag"> Add a tag </a>
+        </p>
+        {% if tags %}
+        <h2>Tags:</h2>
+        <ul>
+        {% for tag in tags %}
+            <p>{{ tag[1] }}</p>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
         <p>
             <a href="/question/{{ question[0] }}/new-comment"> Add a comment </a>
         </p>
