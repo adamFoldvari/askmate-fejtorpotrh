@@ -6,7 +6,7 @@ import psycopg2
 from database_connection_data import db_con_data
 
 SORTING_REVERSE = {'id': 'DESC',
-                   'submission_time': 'ASC',
+                   'submission_time': 'DESC',
                    'view_number': 'DESC',
                    'vote_number': 'DESC',
                    'title': 'DESC',
@@ -54,9 +54,11 @@ def query_result(*query):
     return rows
 
 
-def table_sort(unordered_questions, field_name):
+def table_sort(field_name):
     '''Sort the table by the given field number.'''
-    ordered_questions = query_result("SELECT * FROM question ORDER BY "+field_name+" "+SORTING_REVERSE[field_name])
+    ordered_questions = query_result("SELECT * FROM question ORDER BY " +
+                                     field_name + " " + SORTING_REVERSE[field_name])
+
     if SORTING_REVERSE[field_name] == 'DESC':
         SORTING_REVERSE[field_name] = 'ASC'
     else:
