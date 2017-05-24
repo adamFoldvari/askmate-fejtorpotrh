@@ -105,14 +105,17 @@ def add_existing_tag_to_question(question_id, existing_tag_id):
 def add_new_tag_to_question(question_id):
     existing_tags = data_manager.get_existing_tags()
     existing_tag_names = [tag[1] for tag in existing_tags]
-    print('Tags: ', existing_tag_names)
     new_tag_name = request.form['name']
-    print('New tag: ', new_tag_name)
     if new_tag_name in existing_tag_names:
-        print('YEAH')
         return render_template('new_tag.html', question_id=question_id, existing_tags=existing_tags,
                                new_tag_error_message="This tag already exists! Please, type here another one!")
     data_manager.add_new_tag_to_question(question_id, new_tag_name)
+    return redirect(url_for('display_q_and_a', question_id=question_id))
+
+
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_tag(question_id, tag_id):
+    data_manager.delete_tag(question_id, tag_id)
     return redirect(url_for('display_q_and_a', question_id=question_id))
 
 

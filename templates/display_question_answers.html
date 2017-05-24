@@ -27,7 +27,14 @@
         <h2>Tags:</h2>
         <ul>
         {% for tag in tags %}
-            <p>{{ tag[1] }}</p>
+        <table>
+        <tr>
+            <td align="center">{{ tag[1] }}</td>
+            <td align="center">
+                    <a href="/question/{{ question[0] }}/tag/{{ tag[0] }}/delete"><img src="/static/icons/red_X.png" width="15" height="15" alt="display_question"></a>
+            </td>
+        </tr>
+        </table>
         {% endfor %}
         </ul>
         {% endif %}

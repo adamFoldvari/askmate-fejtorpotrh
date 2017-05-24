@@ -136,6 +136,10 @@ def add_new_tag_to_question(question_id, new_tag_name):
                     VALUES (%s, %s);""", (int(question_id), tag_id[0][0]))
 
 
+def delete_tag(question_id, tag_id):
+    query_result("DELETE FROM question_tag WHERE question_id="+question_id+" AND tag_id="+tag_id+";")
+
+
 def get_comments_for_question(question_id):
     comments = query_result("""SELECT * FROM comment WHERE question_id = %s;""", (question_id,))
     return comments
