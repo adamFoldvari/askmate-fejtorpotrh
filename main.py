@@ -9,9 +9,20 @@ app = Flask(__name__)
 
 # Listing
 @app.route('/', methods=['POST', 'GET'])
+def list_lates_five_question():
+    unordered_questions = data_manager.get_questions(True)
+    if request.method == "POST":
+        ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_number'])
+    else:
+        ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
+    answer_count_list = data_manager.answer_count
+    return render_template("questionlist.html",
+                           questions=ordered_questions, answer_count_list=answer_count_list, create_link=True)
+
+
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
-    unordered_questions = data_manager.get_questiontable()
+    unordered_questions = data_manager.get_questions()
     if request.method == "POST":
         ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_name'])
     else:
@@ -28,7 +39,7 @@ def question_sheet():
 
 @app.route('/new_question/add', methods=['POST'])
 def add_question():
-    table = data_manager.get_questiontable()
+    table = data_manager.get_questions()
     new_row = []
     new_row.append(None)
     time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -47,7 +58,7 @@ def add_question():
 @app.route('/question/<question_id>/new_answer', methods=["GET", "POST"])
 @app.route('/question/<question_id>', methods=["GET", "POST"])
 def display_q_and_a(question_id, new_answer=False):
-    questions = data_manager.get_questiontable()
+    questions = data_manager.get_questions()
     [question] = [question for question in questions if question[0] == int(question_id)]
     answers_for_question = data_manager.answers_for_question(int(question_id))
     answer_count = data_manager.answer_count(question_id)
@@ -76,6 +87,7 @@ def view_counter(question_id):
 def delete_question(question_id):
     data_manager.delete_question_and_answers(question_id)
     return redirect('/')
+
 
 if __name__ == '__main__':
     app.debug = True

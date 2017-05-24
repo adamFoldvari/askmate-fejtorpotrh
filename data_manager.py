@@ -64,12 +64,15 @@ def table_sort(unordered_questions, field_name):
     return ordered_questions
 
 
-def get_questiontable():
+def get_questions(first_five_only=False):
     '''Read the QUESTIONS into a @table.
-
+        first_five_only gets only tha latest 5 questions
     @table: list of lists of strings
     '''
-    questions = query_result("""SELECT * FROM question;""")
+    if first_five_only:
+        questions = query_result("""SELECT * FROM question ORDER BY submission_time DESC LIMIT 5;""")
+    else:
+        questions = query_result("""SELECT * FROM question;""")
     MESSAGE = 5
     for question in questions:
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
