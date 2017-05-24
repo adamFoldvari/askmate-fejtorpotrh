@@ -117,3 +117,13 @@ def answer_count(question_id):
 def delete_question_and_answers(question_id):
     '''Delete the question with the given id and all existing answers.'''
     query_result("""DELETE FROM question WHERE id = %s;""", (question_id,))
+
+
+def add_comment_to_db(question_id, message, submission_time):
+    query_result("""INSERT INTO comment(question_id, message, submission_time)
+                    VALUES (%s, %s, %s);""", (int(question_id), message, submission_time))
+
+
+def get_comments_for_question(question_id):
+    comments = query_result("""SELECT * FROM comment WHERE question_id = %s;""", (question_id,))
+    return comments

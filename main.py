@@ -60,6 +60,7 @@ def display_q_and_a(question_id, new_answer=False):
     [question] = [question for question in questions if question[0] == int(question_id)]
     answers_for_question = data_manager.answers_for_question(int(question_id))
     answer_count = data_manager.answer_count(question_id)
+    comments = data_manager.get_comments_for_question(question_id)
     if request.method == "POST":
         answer_id = None
         time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -72,7 +73,7 @@ def display_q_and_a(question_id, new_answer=False):
     if request.url.endswith("new_answer"):
         new_answer = True
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
-                           new_answer=new_answer, answer_count=answer_count)
+                           new_answer=new_answer, answer_count=answer_count, comments=comments)
 
 
 @app.route('/question/<question_id>/viewcount')
@@ -85,6 +86,19 @@ def view_counter(question_id):
 def delete_question(question_id):
     data_manager.delete_question_and_answers(question_id)
     return redirect('/')
+
+
+@app.route('/question/<question_id>/new-comment')
+def add_comment_form(question_id):
+    return render_template('new_question.html', question_id=question_id)
+
+
+@app.route('/question/<question_id>/new-comment/add', methods=['POST'])
+def add_comment_to_question(question_id):
+    submission_time = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    message = request.form['comment']
+    data_manager.add_comment_to_db(question_id, message, submission_time)
+    return redirect(url_for('display_q_and_a', question_id=question_id))
 
 
 if __name__ == '__main__':

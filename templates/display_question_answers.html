@@ -19,6 +19,25 @@
             {{ question[1] }}
             /
         </p>
+        <p>
+            <a href="/question/{{ question[0] }}/new-comment"> Add a comment </a>
+        </p>
+        {% if comments %}
+        <h2>Comments:</h2>
+        <ul>
+        {% for comment in comments %}
+            <li>
+                <p>{{ comment[3] }}<br>
+
+                    
+                    / {{ comment[4] }} /
+                </p>
+                <br>
+                    
+            </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 
         {% if new_answer==False %}
         {% if answer_count %}

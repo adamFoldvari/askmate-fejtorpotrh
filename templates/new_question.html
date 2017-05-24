@@ -2,9 +2,22 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    {% if question_id %}
+    <title>Add new comment</title>
+    {% else %}
     <title>Add new question</title>
+    {% endif %}
   </head>
   <body>
+    {% if question_id %}
+    <h1>Add new comment: </h1>
+      <form action='/question/{{ question_id }}/new-comment/add' method='POST'>
+        <label for="comment"> Your Comment </label>
+        <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
+        <p><input type="submit" value="Comment" id="uptaded"></p>
+      </form>
+      <p><a href="/">Back to questions</a></p>
+    {% else %}
       <h1>Add new question: </h1>
       <form action='/new_question/add' method='POST'>
         <label for="question_title"> Question Title: </label>
@@ -14,6 +27,6 @@
         <p><input type="submit" value="ASK" id="uptaded"></p>
       </form>
       <p><a href="/">Back to questions</a></p>
-
+    {% endif %}
   </body>
 </html>
