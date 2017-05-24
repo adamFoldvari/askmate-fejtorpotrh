@@ -51,7 +51,9 @@ def table_sort(field_name, sorting_direction):
     '''Sort the table by the given field number.'''
     ordered_questions = query_result("SELECT * FROM question ORDER BY " +
                                      field_name + " " + sorting_direction)
-
+    MESSAGE = 5
+    for question in ordered_questions:
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
     return ordered_questions
 
 
