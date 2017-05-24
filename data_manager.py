@@ -5,13 +5,6 @@ import psycopg2
 
 from database_connection_data import db_con_data
 
-SORTING_REVERSE = {'id': 'DESC',
-                   'submission_time': 'DESC',
-                   'view_number': 'DESC',
-                   'vote_number': 'DESC',
-                   'title': 'DESC',
-                   'message': 'DESC'}
-
 
 def connect_database():
     try:
