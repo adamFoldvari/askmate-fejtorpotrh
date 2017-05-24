@@ -7,8 +7,13 @@
     <h1 align="center">AskMate</h1>
     <h2 align="center">Questions</h2>
     <button type="submit" onclick="window.location.href='/new_question'">New Question</button>
-    <br>
-    <br>
+    <p>
+        <form action="/search" method="GET">
+            <label for="q">Search: </label>
+            <input type="text" name="q" id="q" size="40" maxlength="120">
+            <input type="submit" value="Submit">
+        </form>
+    </p>
     <table border="2" bgcolor="Gainsboro">
         <tr align="center">
             <td>

@@ -56,7 +56,8 @@ def query_result(*query):
 
 def table_sort(unordered_questions, field_name):
     '''Sort the table by the given field number.'''
-    ordered_questions = query_result("SELECT * FROM question ORDER BY "+field_name+" "+SORTING_REVERSE[field_name])
+    ordered_questions = query_result("SELECT * FROM question ORDER BY " +
+                                     field_name + " " + SORTING_REVERSE[field_name])
     if SORTING_REVERSE[field_name] == 'DESC':
         SORTING_REVERSE[field_name] = 'ASC'
     else:
@@ -119,3 +120,25 @@ def answer_count(question_id):
 def delete_question_and_answers(question_id):
     '''Delete the question with the given id and all existing answers.'''
     query_result("""DELETE FROM question WHERE id = %s;""", (question_id,))
+
+
+def search(search_text):
+    search_text = '%{}%'.format(search_text.lower())
+    answer_q_ids = query_result("""SELECT question_id FROM answer WHERE LOWER(message) LIKE %s;""", (search_text,))
+    questions = query_result("""SELECT * FROM question WHERE LOWER(title) LIKE %s;""", (search_text,))
+    if answer_q_ids:
+        for answer_q_id in answer_q_ids:
+            if answer_q_id:
+                [answer_q_id] = answer_q_id
+
+                [question_to_answer] = query_result("""SELECT * FROM question WHERE id = %s;""", (answer_q_id,))
+                questions.append(question_to_answer)
+    # Convert list to set to delete duplicates
+    questions = set(map(tuple, questions))
+    questions = list(map(list, questions))
+
+    MESSAGE = 5
+    for question in questions:
+        print(question)
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
+    return questions

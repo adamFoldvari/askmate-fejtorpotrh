@@ -89,6 +89,21 @@ def delete_question(question_id):
     return redirect('/')
 
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    search_phrase = str(request.query_string)
+    search_text = search_phrase[search_phrase.index('=') + 1:-1]
+    print('search text:', search_text)
+    questions = data_manager.search(search_text)
+    if request.method == "POST":
+        ordered_questions = data_manager.table_sort(questions, request.form['field_name'])
+    else:
+        ordered_questions = sorted(questions, key=lambda q: q[1], reverse=True)
+    answer_count_list = data_manager.answer_count
+
+    return render_template("questionlist.html",
+                           questions=ordered_questions, answer_count_list=answer_count_list, create_link=True)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
