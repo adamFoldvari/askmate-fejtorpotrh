@@ -87,3 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Personal database connection data file
+database_connection_data.py
+
+.vscode
