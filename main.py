@@ -10,11 +10,7 @@ app = Flask(__name__)
 # Listing
 @app.route('/', methods=['POST', 'GET'])
 def list_lates_five_question():
-    unordered_questions = data_manager.get_questions(True)
-    if request.method == "POST":
-        ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_number'])
-    else:
-        ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
+    ordered_questions = data_manager.get_questions(first_five_only=True)
     answer_count_list = data_manager.answer_count
     return render_template("questionlist.html",
                            questions=ordered_questions, answer_count_list=answer_count_list, create_link=True)
@@ -22,11 +18,13 @@ def list_lates_five_question():
 
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
-    unordered_questions = data_manager.get_questions()
     if request.method == "POST":
-        ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_name'])
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        ordered_questions = data_manager.table_sort(key[0], value[0])
     else:
-        ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
+        ordered_questions = data_manager.table_sort('submission_time', 'DESC')
     answer_count_list = data_manager.answer_count
     return render_template("questionlist.html",
                            questions=ordered_questions, answer_count_list=answer_count_list)

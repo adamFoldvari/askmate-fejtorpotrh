@@ -5,13 +5,6 @@ import psycopg2
 
 from database_connection_data import db_con_data
 
-SORTING_REVERSE = {'id': 'DESC',
-                   'submission_time': 'ASC',
-                   'view_number': 'DESC',
-                   'vote_number': 'DESC',
-                   'title': 'DESC',
-                   'message': 'DESC'}
-
 
 def connect_database():
     try:
@@ -54,14 +47,15 @@ def query_result(*query):
     return rows
 
 
-def table_sort(unordered_questions, field_name):
+def table_sort(field_name, sorting_direction):
     '''Sort the table by the given field number.'''
     ordered_questions = query_result("SELECT * FROM question ORDER BY " +
-                                     field_name + " " + SORTING_REVERSE[field_name])
-    if SORTING_REVERSE[field_name] == 'DESC':
-        SORTING_REVERSE[field_name] = 'ASC'
-    else:
-        SORTING_REVERSE[field_name] = 'DESC'
+
+                                     field_name + " " + sorting_direction)
+    MESSAGE = 5
+    for question in ordered_questions:
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
+
     return ordered_questions
 
 
