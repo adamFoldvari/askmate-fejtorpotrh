@@ -123,7 +123,6 @@ def search(search_text):
         for answer_q_id in answer_q_ids:
             if answer_q_id:
                 [answer_q_id] = answer_q_id
-
                 [question_to_answer] = query_result("""SELECT * FROM question WHERE id = %s;""", (answer_q_id,))
                 questions.append(question_to_answer)
     # Convert list to set to delete duplicates
@@ -132,6 +131,6 @@ def search(search_text):
 
     MESSAGE = 5
     for question in questions:
-        print(question)
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
+
     return questions
