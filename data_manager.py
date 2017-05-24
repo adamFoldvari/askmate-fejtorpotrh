@@ -40,6 +40,9 @@ def query_result(*query):
         print(e)
         print("Nothing to print")
         rows = ""
+    except psycopg2.IntegrityError as e:
+        print(e)
+        rows = ""
     finally:
         if conn:
             conn.close()
