@@ -47,19 +47,7 @@ def query_result(*query):
     return rows
 
 
-def table_sort(field_name, sorting_direction):
-    '''Sort the table by the given field number.'''
-    ordered_questions = query_result("SELECT * FROM question ORDER BY " +
-
-                                     field_name + " " + sorting_direction)
-    MESSAGE = 5
-    for question in ordered_questions:
-        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
-
-    return ordered_questions
-
-
-def get_questions(first_five_only=False):
+def get_questions(field_name, sorting_direction, first_five_only=False):
     '''Read the QUESTIONS into a @table.
         first_five_only gets only tha latest 5 questions
     @table: list of lists of strings
@@ -67,7 +55,8 @@ def get_questions(first_five_only=False):
     if first_five_only:
         questions = query_result("""SELECT * FROM question ORDER BY submission_time DESC LIMIT 5;""")
     else:
-        questions = query_result("""SELECT * FROM question;""")
+        questions = query_result("SELECT * FROM question ORDER BY " +
+                                 field_name + " " + sorting_direction)
     MESSAGE = 5
     for question in questions:
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
