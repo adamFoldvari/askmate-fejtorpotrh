@@ -11,28 +11,43 @@
     <br>
     <table border="2" bgcolor="Gainsboro">
         <tr align="center">
-            <td><strong>ID</strong></td>
             <td>
                 <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_number value='1' hidden>
+                    <input type="text" name=field_name value='id' hidden>
+                    <input type="submit" value="ID">
+                </form>
+            </td>
+            <td>
+                <form action="{{ url_for('listing') }}" method="POST">
+                    <input type="text" name=field_name value='submission_time' hidden>
                     <input type="submit" value="Submission time">
                 </form>
             </td>
             <td><strong>Answers</strong></td>
             <td>
                 <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_number value='2' hidden>
+                    <input type="text" name=field_name value='view_number' hidden>
                     <input type="submit" value="Views">
                 </form>
             </td>
             <td>
                 <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_number value='3' hidden>
+                    <input type="text" name=field_name value='vote_number' hidden>
                     <input type="submit" value="Votes">
                 </form>
             </td>
-            <td><strong>Title</strong></td>
-            <td><strong>Message</strong></td>
+            <td>
+                <form action="{{ url_for('listing') }}" method="POST">
+                    <input type="text" name=field_name value='title' hidden>
+                    <input type="submit" value="Title">
+                </form>
+            </td>            
+            <td>
+                <form action="{{ url_for('listing') }}" method="POST">
+                    <input type="text" name=field_name value='message' hidden>
+                    <input type="submit" value="Message">
+                </form>
+            </td>
             <td><strong>Image</strong></td>
         </tr>
         {% for question in questions %}

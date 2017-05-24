@@ -13,7 +13,7 @@ app = Flask(__name__)
 def listing():
     unordered_questions = data_manager.get_questiontable()
     if request.method == "POST":
-        ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_number'])
+        ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_name'])
     else:
         ordered_questions = sorted(unordered_questions, key=lambda q: q[1], reverse=True)
     answer_count_list = data_manager.answer_count
