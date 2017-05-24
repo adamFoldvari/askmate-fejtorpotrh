@@ -18,9 +18,12 @@
                 </form>
             </td>
             <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='submission_time' hidden>
-                    <input type="submit" value="Submission time">
+                Submission time
+                <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?submission_time=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
             <td><strong>Answers</strong></td>

@@ -19,9 +19,12 @@ def list_lates_five_question():
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
     if request.method == "POST":
-        ordered_questions = data_manager.table_sort(request.form['field_name'])
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        ordered_questions = data_manager.table_sort(key[0], value[0])
     else:
-        ordered_questions = data_manager.table_sort('submission_time')
+        ordered_questions = data_manager.table_sort('submission_time', 'DESC')
     answer_count_list = data_manager.answer_count
     return render_template("questionlist.html",
                            questions=ordered_questions, answer_count_list=answer_count_list)

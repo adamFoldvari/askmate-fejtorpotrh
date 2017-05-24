@@ -54,15 +54,11 @@ def query_result(*query):
     return rows
 
 
-def table_sort(field_name):
+def table_sort(field_name, sorting_direction):
     '''Sort the table by the given field number.'''
     ordered_questions = query_result("SELECT * FROM question ORDER BY " +
-                                     field_name + " " + SORTING_REVERSE[field_name])
+                                     field_name + " " + sorting_direction)
 
-    if SORTING_REVERSE[field_name] == 'DESC':
-        SORTING_REVERSE[field_name] = 'ASC'
-    else:
-        SORTING_REVERSE[field_name] = 'DESC'
     return ordered_questions
 
 
