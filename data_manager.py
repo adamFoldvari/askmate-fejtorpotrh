@@ -146,6 +146,3 @@ def search(search_text):
         print(question)
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
     return questions
-
-
->>>>>> > b456a3da0c62335b8134d950302e435d9e80308f
