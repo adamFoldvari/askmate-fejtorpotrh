@@ -7,18 +7,24 @@
     <h1 align="center">AskMate</h1>
     <h2 align="center">Questions</h2>
     <button type="submit" onclick="window.location.href='/new_question'">New Question</button>
-    <br>
-    <br>
+    <p>
+        <form action="/search" method="GET">
+            <label for="q">Search: </label>
+            <input type="text" name="q" id="q" size="40" maxlength="120">
+            <input type="submit" value="Submit">
+        </form>
+    </p>
     <table border="2" bgcolor="Gainsboro">
         <tr align="center">
-            <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='id' hidden>
-                    <input type="submit" value="ID">
+            <td>ID
+                <form action="{{ url_for('listing') + '?id=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?id=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
-            <td>
-                Submission time
+            <td>Submission time
                 <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
                     <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
@@ -26,29 +32,37 @@
                     <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
-            <td><strong>Answers</strong></td>
-            <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='view_number' hidden>
-                    <input type="submit" value="Views">
+            <td>Answers</td>
+            <td>Views
+                <form action="{{ url_for('listing') + '?view_number=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?view_number=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
-            <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='vote_number' hidden>
-                    <input type="submit" value="Votes">
+            <td>Votes
+                <form action="{{ url_for('listing') + '?vote_number=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?vote_number=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
-            <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='title' hidden>
-                    <input type="submit" value="Title">
+            <td>Title
+                <form action="{{ url_for('listing') + '?title=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?title=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>            
-            <td>
-                <form action="{{ url_for('listing') }}" method="POST">
-                    <input type="text" name=field_name value='message' hidden>
-                    <input type="submit" value="Message">
+            <td>Message
+                <form action="{{ url_for('listing') + '?message=ASC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                </form>
+                 <form action="{{ url_for('listing') + '?message=DESC'}}" method="POST">
+                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
                 </form>
             </td>
             <td><strong>Image</strong></td>

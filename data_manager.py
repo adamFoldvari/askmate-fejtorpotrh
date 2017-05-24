@@ -5,13 +5,6 @@ import psycopg2
 
 from database_connection_data import db_con_data
 
-SORTING_REVERSE = {'id': 'DESC',
-                   'submission_time': 'DESC',
-                   'view_number': 'DESC',
-                   'vote_number': 'DESC',
-                   'title': 'DESC',
-                   'message': 'DESC'}
-
 
 def connect_database():
     try:
@@ -57,7 +50,11 @@ def query_result(*query):
 def table_sort(field_name, sorting_direction):
     '''Sort the table by the given field number.'''
     ordered_questions = query_result("SELECT * FROM question ORDER BY " +
+
                                      field_name + " " + sorting_direction)
+    MESSAGE = 5
+    for question in ordered_questions:
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
 
     return ordered_questions
 
@@ -127,3 +124,28 @@ def add_comment_to_db(question_id, message, submission_time):
 def get_comments_for_question(question_id):
     comments = query_result("""SELECT * FROM comment WHERE question_id = %s;""", (question_id,))
     return comments
+
+
+def search(search_text):
+    search_text = '%{}%'.format(search_text.lower())
+    answer_q_ids = query_result("""SELECT question_id FROM answer WHERE LOWER(message) LIKE %s;""", (search_text,))
+    questions = query_result("""SELECT * FROM question WHERE LOWER(title) LIKE %s;""", (search_text,))
+    if answer_q_ids:
+        for answer_q_id in answer_q_ids:
+            if answer_q_id:
+                [answer_q_id] = answer_q_id
+
+                [question_to_answer] = query_result("""SELECT * FROM question WHERE id = %s;""", (answer_q_id,))
+                questions.append(question_to_answer)
+    # Convert list to set to delete duplicates
+    questions = set(map(tuple, questions))
+    questions = list(map(list, questions))
+
+    MESSAGE = 5
+    for question in questions:
+        print(question)
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
+    return questions
+
+
+>>>>>> > b456a3da0c62335b8134d950302e435d9e80308f
