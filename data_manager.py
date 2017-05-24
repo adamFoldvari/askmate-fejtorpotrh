@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Markup
 import psycopg2
 
+from database_connection_data import db_con_data
 
 SORTING_REVERSE = [0, 0, 0]
 
@@ -10,7 +11,8 @@ SORTING_REVERSE = [0, 0, 0]
 def connect_database():
     try:
         # setup connection string
-        connect_str = "dbname='gergo' user='gergo' host='localhost'"
+        connect_str = "dbname={} user={} host='localhost'".format(
+            db_con_data()[0], db_con_data()[1])
         # use our connection values to establish a connection
         conn = psycopg2.connect(connect_str)
         # set autocommit option, to do every query when we call it
@@ -25,10 +27,15 @@ def connect_database():
 
 
 def query_result(*query):
+    """Execute SQL query and return the result if it exists.
+
+    Close the connection after execution.
+    """
     try:
         cursor, conn = connect_database()
         cursor.execute(*query)
         rows = cursor.fetchall()
+        rows = [list(row) for row in rows]
     except psycopg2.OperationalError as e:
         print(e)
     except psycopg2.ProgrammingError as e:
@@ -60,120 +67,55 @@ def table_sort(unordered_q, field_num):
     return ordered_q
 
 
-def read_raw_data(file_name):
-    '''Read the lines from the csv file without decoding'''
-    with open(file_name) as file:
-        data_list = file.readlines()
-        data_list = [element.replace("\n", "").split(",") for element in data_list]
+def get_questiontable():
+    '''Read the QUESTIONS into a @table.
 
-    return data_list
-
-
-def write_raw_data(file_name, table):
-    '''Write the lines from the csv file without decoding'''
-    with open(file_name, 'w') as file:
-        for element in table:
-            file.write(element + '\n')
-
-
-def get_questiontable_from_file():
-    '''Read the QUESTIONS' file into a @table.
-
-    @file_name: string
     @table: list of lists of strings
     '''
-    table = query_result("""SELECT * FROM question;""")
+    questions = query_result("""SELECT * FROM question;""")
+    MESSAGE = 5
+    for question in questions:
+        question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
 
-    for i in range(len(table)):
-        table[i] = list(table[i])
-        table[i][5] = Markup(table[i][5].replace("\n", "<br>"))
-
-    return table
+    return questions
 
 
-def write_questiontable_to_file(row):
+def write_question_to_db(row):
     '''Write the QUESTION @row into a file.
 
-    @file_name: string
     @row: list of strings
     '''
-
     query_result("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
                     VALUES(%s, %s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5], row[6]))
 
 
-def get_answertable_from_file():
-    '''Read the ANSWERS file into a @table.
+def answers_for_question(question_id):
+    answers = query_result("""SELECT * FROM answer WHERE question_id = %s;""", (question_id,))
+    MESSAGE = 4
+    for answer in answers:
+        answer[MESSAGE] = Markup(answer[MESSAGE].replace("\n", "<br>"))
 
-    @file_name: string
-    @table: list of lists of strings
-    '''
-    table = read_raw_data('answer.csv')
-    for record in table:
-        record[4] = Markup(record[4].replace("\n", "<br>"))
-
-    return table
+    return answers
 
 
-def write_answer_to_file(row):
-    '''Write the ANSWER @row into a file.'''
-    with open('answer.csv', "a") as file:
-        row[4] = b64encode(str.encode(row[4].strip())).decode('utf-8')
-        row[5] = b64encode(str.encode(row[5])).decode('utf-8')
-        new_row = ','.join(row)
-        file.write(new_row + "\n")
+def write_answer_to_db(row):
+    '''Write the ANSWER @row into the database.'''
+    query_result("""INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+                    VALUES(%s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5]))
 
 
 def add_view_number(question_id):
     '''Increase the view number of the question with the given question_id by 1.'''
-    file_name = 'question.csv'
-    questions = read_raw_data(file_name)
-    new_questions = []
-
-    for question in questions:
-        if question[0] == str(question_id):
-            question[2] = str(int(question[2]) + 1)
-        question = ','.join(question)
-        new_questions.append(question)
-
-    write_raw_data(file_name, new_questions)
+    query_result("""UPDATE question SET view_number = view_number + 1 WHERE id = %s;""", (question_id,))
 
 
 def answer_count(question_id):
     '''Give back the number of the answers to the question with the given id.'''
-    answers = get_answertable_from_file()
-    answers_to_question = [answer for answer in answers if answer[3] == question_id]
+    [[count]] = query_result("""SELECT COUNT(*) FROM answer WHERE question_id = %s;""", (question_id,))
 
-    return len(answers_to_question)
+    return count
 
 
 def delete_question_and_answers(question_id):
     '''Delete the question with the given id and all existing answers.'''
-    questions = read_raw_data('question.csv')
-    new_questions = []
-    for question in questions:
-        if question[0] != question_id:
-            question = ','.join(question)
-            new_questions.append(question)
-
-    write_raw_data('question.csv', new_questions)
-
-    answers = read_raw_data('answer.csv')
-    new_answers = []
-    for answer in answers:
-        if answer[3] != question_id:
-            answer = ','.join(answer)
-            new_answers.append(answer)
-
-    write_raw_data('answer.csv', new_answers)
-
-
-def print_table(rows):
-    table = []
-
-    for row in rows:
-        row = str(row).strip("()").split(", ")
-        table.append(row)
-
-    for row in table:
-        print(", ".join(row))
+    query_result("""DELETE FROM question WHERE id = %s;""", (question_id,))

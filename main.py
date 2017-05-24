@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
-    unordered_questions = data_manager.get_questiontable_from_file()
+    unordered_questions = data_manager.get_questiontable()
     if request.method == "POST":
         ordered_questions = data_manager.table_sort(unordered_questions, request.form['field_number'])
     else:
@@ -28,47 +28,40 @@ def question_sheet():
 
 @app.route('/new_question/add', methods=['POST'])
 def add_question():
-    table = data_manager.get_questiontable_from_file()
+    table = data_manager.get_questiontable()
     new_row = []
-    if table:
-        last_id = int(table[-1][0])
-    else:
-        last_id = 0
-    new_row.append(str(last_id + 1))
-    dt = datetime.datetime.now()
-    new_row.append(dt)
+    new_row.append(None)
+    time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    new_row.append(time_now)
     for _ in range(2):
         new_row.append(str(0))
     new_row.append(request.form['question_title'])
-    new_row.append(request.form['question'])
+    new_row.append(request.form['question'].replace("\r\n", "\n"))
     new_row.append(None)
-    data_manager.write_questiontable_to_file(new_row)
-    return redirect(url_for('display_q_and_a', question_id=new_row[0]))
+    data_manager.write_question_to_db(new_row)
+    [[question_id]] = data_manager.query_result(
+        """SELECT id FROM question WHERE submission_time = %s""", (time_now,))
+    return redirect(url_for('display_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new_answer', methods=["GET", "POST"])
 @app.route('/question/<question_id>', methods=["GET", "POST"])
 def display_q_and_a(question_id, new_answer=False):
-    questions = data_manager.get_questiontable_from_file()
-    answers = data_manager.get_answertable_from_file()
-    question = [question for question in questions if question[0] == int(question_id)][0]
-    answers_for_question = [answer for answer in answers if answer[3] == question_id]
+    questions = data_manager.get_questiontable()
+    [question] = [question for question in questions if question[0] == int(question_id)]
+    answers_for_question = data_manager.answers_for_question(int(question_id))
     answer_count = data_manager.answer_count(question_id)
     if request.method == "POST":
-        if answers:
-            answer_id = str(int(answers[-1][0]) + 1)
-        else:
-            answer_id = "0"
-        time_now = str(int(time.time()))
+        answer_id = None
+        time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         votes = "0"
-        new_answer_message = request.form["new_answer"]
+        new_answer_message = request.form["new_answer"].replace("\r\n", "\n")
         image = None
         new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image]
-        data_manager.write_answer_to_file(new_answer_data)
+        data_manager.write_answer_to_db(new_answer_data)
         return redirect(url_for('display_q_and_a', question_id=question_id))
     if request.url.endswith("new_answer"):
         new_answer = True
-
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
                            new_answer=new_answer, answer_count=answer_count)
 
