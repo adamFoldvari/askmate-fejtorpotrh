@@ -47,7 +47,7 @@ def query_result(*query):
     return rows
 
 
-def get_questions(field_name, sorting_direction, first_five_only=False):
+def get_questions(field_name='submission_time', sorting_direction='DESC', first_five_only=False):
     '''Read the QUESTIONS into a @table.
         first_five_only gets only tha latest 5 questions
     @table: list of lists of strings
