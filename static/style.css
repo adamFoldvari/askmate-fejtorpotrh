@@ -69,7 +69,6 @@ table {
     background-color: #143153;
 }
 
-
 th {
     background-color: #bbb;
     padding: 0.5em 1em;
@@ -82,11 +81,17 @@ td {
 
 th, td {
     border: none;
+    font-size: 0.9em;
 }
 
-.arrow-icon {
-    width: 14px;
-    padding-top: 10px;
+/* Question cell in table */
+tr>td:nth-child(5) {
+    font-size: 1.1em;
+}
+
+/* Image cell in table */
+tr>td:nth-child(6) a img {
+    width: 40px;
 }
 
 input[type=text],
@@ -121,17 +126,27 @@ input[type=submit] {
     cursor:pointer;
 }
 
-i, .link a {
-    color: #aa1100;
-    margin: 0 auto;
-    width: auto;
+.arrow-icon {
+    width: 14px;
+    padding-top: 10px;
+}
+
+.link a {
     display: inline-block;
+}
+
+.fa-trash {
+    color: #aa1100;
 }
 
 #content-wrapper {
     background-color: #ddd;
     margin: 0 10%;
     padding: 0 2em 2em;
+}
+
+#search-text {
+    margin-bottom: 1em;
 }
 
 #question-desc,

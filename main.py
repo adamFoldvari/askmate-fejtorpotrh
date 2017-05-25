@@ -141,7 +141,8 @@ def search():
     answer_count_list = data_manager.answer_count
 
     return render_template("questionlist.html",
-                           questions=questions, answer_count_list=answer_count_list, create_link=True)
+                           questions=questions, answer_count_list=answer_count_list, create_link=True,
+                           search_text=search_text)
 
 
 if __name__ == '__main__':

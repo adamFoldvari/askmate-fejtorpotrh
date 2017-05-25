@@ -13,44 +13,52 @@
 
         <form action="/search" method="GET">
             <label for="q">Search:</label>
+            {% if search_text %}
+            <input type="text" name="q" id="q" size="40" value="{{search_text}}" maxlength="120">
+            {% else %}
             <input type="text" name="q" id="q" size="40" maxlength="120">
+            {% endif %}
             <input type="submit" value="Submit">
         </form>
+
+        {% if search_text %}
+        <p id="search-text">Searching result(s):</p>
+        {% endif %}
 
         {% if questions %}
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Submission time<br>
                     <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
                     <form action="{{ url_for('listing') + '?submission_time=DESC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Answers</th>
                 <th>Views<br>
                     <form action="{{ url_for('listing') + '?view_number=ASC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
                     <form action="{{ url_for('listing') + '?view_number=DESC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Votes<br>
                     <form action="{{ url_for('listing') + '?vote_number=ASC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
                     <form action="{{ url_for('listing') + '?vote_number=DESC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Title<br>
                     <form action="{{ url_for('listing') + '?title=ASC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
                     <form action="{{ url_for('listing') + '?title=DESC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
                 <th>Image</th>
@@ -66,11 +74,11 @@
                     <td style="word-wrap: break-word;">{{question[4]}}</td>
                     <td align="center">
                     {% if question[6] %}
-                        <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" style="width: 60px" alt="image"></a>
+                        <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" alt="image"></a>
                     {% endif %}
                     </td>
                     <td align="center" class="link">
-                        <a href="/question/{{question[0]}}/viewcount"><img src="/static/icons/eye_icon.png" width="40" alt="display_question"></a>
+                        <a href="/question/{{question[0]}}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
                     </td> 
                     <td align='center' class="link"> 
                         <a href='/question/{{question[0]}}/delete'><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a>
