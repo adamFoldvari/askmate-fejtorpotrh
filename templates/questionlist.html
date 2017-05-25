@@ -2,101 +2,107 @@
 <html>
   <head>
     <title>AskMate project - List of questions</title>
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+
   </head>
   <body>
-    <h1 align="center">AskMate</h1>
-    <h2 align="center">Questions</h2>
-    <button type="submit" onclick="window.location.href='/new_question'">New Question</button>
-    <p>
-        <form action="/search" method="GET">
-            <label for="q">Search: </label>
-            <input type="text" name="q" id="q" size="40" maxlength="120">
-            <input type="submit" value="Submit">
-        </form>
-    </p>
-    {% if questions %}
-    <table border="2" bgcolor="Gainsboro">
-        <tr align="center">
-            <td>ID
-                <form action="{{ url_for('listing') + '?id=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?id=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>
-            <td>Submission time
-                <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?submission_time=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>
-            <td>Answers</td>
-            <td>Views
-                <form action="{{ url_for('listing') + '?view_number=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?view_number=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>
-            <td>Votes
-                <form action="{{ url_for('listing') + '?vote_number=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?vote_number=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>
-            <td>Title
-                <form action="{{ url_for('listing') + '?title=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?title=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>            
-            <td>Message
-                <form action="{{ url_for('listing') + '?message=ASC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-                 <form action="{{ url_for('listing') + '?message=DESC'}}" method="POST">
-                    <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
-                </form>
-            </td>
-            <td><strong>Image</strong></td>
-        </tr>
-        {% for question in questions %}
-            <tr bgcolor = "White">
-                <td align="center">{{question[0]}}</td>
-                <td align="center">{{question[1]}}</td>
-                <td align="center">{{ answer_count_list(question[0]) }}</td>
-                <td align="center">{{question[2]}}</td>
-                <td align="center">{{question[3]}}</td>
-                <td style="word-wrap: break-word;">{{question[4]}}</td>
-                <td style="word-wrap: break-word;">{{question[5]}}</td>
-                <td align="center">
-                {% if question[6] %}
-                    <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" style="width: 60px" alt="image"></a>
-                {% endif %}
-                </td>
-                <td align="center" bgcolor="Gainsboro">
-                    <a href="/question/{{question[0]}}/viewcount"><img src="/static/icons/eye_icon.png" width="40" height="40" alt="display_question"></a>
-                </td> 
-                <td align='center'> 
-                    <a href='/question/{{question[0]}}/delete'><img src='/static/icons/trash.png' width="40" height="40" alt='delete_question'></a>
-                </td>
+    <h1>AskMate</h1>
+    <div id="content-wrapper">
+        <h2>Questions</h2>
+        <p class="button"><a id="new-question" href='/new_question'>New Question</a></p>
+        <p>
+            <form action="/search" method="GET">
+                <label for="q">Search:</label>
+                <input type="text" name="q" id="q" size="40" maxlength="120">
+                <input type="submit" value="Submit">
+            </form>
+        </p>
+        {% if questions %}
+        <table border="2" bgcolor="Gainsboro">
+            <tr align="center">
+                <th>ID<br>
+                    <form action="{{ url_for('listing') + '?id=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?id=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Submission time<br>
+                    <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?submission_time=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Answers</th>
+                <th>Views<br>
+                    <form action="{{ url_for('listing') + '?view_number=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?view_number=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Votes<br>
+                    <form action="{{ url_for('listing') + '?vote_number=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?vote_number=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Title<br>
+                    <form action="{{ url_for('listing') + '?title=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?title=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>            
+                <!--<th>Message
+                    <form action="{{ url_for('listing') + '?message=ASC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon1.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('listing') + '?message=DESC'}}" method="POST">
+                        <input type="image" src="/static/icons/sorting_icon2.png" border="0" width="20", height="20" alt="Submit"/>
+                    </form>
+                </th>-->
+                <th>Image</th>
+                <th>View</th>
+                <th>Delete</th>
             </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>No result.</p>
-    {% endif %}
+            {% for question in questions %}
+                <tr bgcolor = "White">
+                    <td align="center">{{question[0]}}</td>
+                    <td align="center">{{question[1]}}</td>
+                    <td align="center">{{ answer_count_list(question[0]) }}</td>
+                    <td align="center">{{question[2]}}</td>
+                    <td align="center">{{question[3]}}</td>
+                    <td style="word-wrap: break-word;">{{question[4]}}</td>
+                    <!--<td style="word-wrap: break-word;">{{question[5]}}</td>-->
+                    <td align="center">
+                    {% if question[6] %}
+                        <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" style="width: 60px" alt="image"></a>
+                    {% endif %}
+                    </td>
+                    <td align="center" class="link">
+                        <a href="/question/{{question[0]}}/viewcount"><img src="/static/icons/eye_icon.png" width="40" height="40" alt="display_question"></a>
+                    </td> 
+                    <td align='center' class="link"> 
+                        <a href='/question/{{question[0]}}/delete'><img src='/static/icons/trash.png' width="40" height="40" alt='delete_question'></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No result.</p>
+        {% endif %}
 
-    {% if create_link %}
-        <a href='/list'> Show all questions </a>
-    {% endif %}
+        {% if create_link %}
+            <p class="button"><a id="show-all-question" href='/list'>Show all questions</a></p>
+        {% endif %}
+    </div>
   </body>
 </html>

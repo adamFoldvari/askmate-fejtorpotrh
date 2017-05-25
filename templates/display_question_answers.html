@@ -2,78 +2,87 @@
 <html>
     <head>
         <title>{{ question[4]}} </title>
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
     </head>
     <body>
-        <h1>AskMate</h1>
-        <h2>Question:</h2>
-        <h3>{{ question[4] }} </h3>
-        <p>{{ question[5] }} </p>
-        <p>
-            {% if question[6] %}
-                <p><a href=""><img src="/static/{{ question[6] }}" width="60" alt="Image"></a></p>
+        <a id="main-header" href="/"><h1>AskMate</h1></a>
+        <!--<h2>Question:</h2>-->
+        <div id="content-wrapper">
+            <div id="question-wrapper">
+                <h3 id="question">{{ question[4] }} </h3>
+                <p id="question-desc">{{ question[5] }} </p>
+                <div id="question-all-data">
+                {% if question[6] %}
+                    <p><a href="/static/{{ question[6] }}"><img src="/static/{{ question[6] }}" width="60" alt="Image"></a></p>
+                {% endif %}
+
+                    <p id="question-data"> /<!--/ answers: {{  answer_count }},-->
+                        views: {{ question[2] }},
+                        votes: {{ question[3] }},
+                        {{ question[1] }}
+                        /
+                    </p> 
+                </div>
+        {% if new_answer==False %}
+        {% if comments %}
+            <div id="comments">
+                <h4>Comments:</h4>
+                <ul>
+                {% for comment in comments %}
+                    <li>
+                        <p>{{ comment[3] }}<br>
+
+                            
+                            <p id="comment-data">/ {{ comment[4] }} /</p>
+                        </p>
+                            
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+                <p class="button">
+                    <a href="/question/{{ question[0] }}/new-comment"> Add a comment </a>
+                </p>
+            </div>
+
+            {% if answer_count %}
+            <div id="answers">     
+                <h3>{{ answer_count }} answer{% if answer_count > 1 %}s{% endif %}:</h3>
+            {% endif %}
+                <ul>
+                {% for answer in answers %}
+                    <li>
+                        <p>{{ answer[4] }}<br>
+
+                            {% if answer[5] %}
+                                <a id="image"href="/static/{{ answer[5] }}" target="_blank"><img src="/static/{{ answer[5] }}" width="60" alt="Image"></a><br>
+                            {% endif %}
+                            <p id="answer-data">
+                                / votes: {{ answer[2] }},
+                                {{ answer[1] }}
+                            /
+                            </p>
+                        </p>     
+                    </li>
+                {% endfor %}
+                </ul>
+                <p class="button"><a id="new_answer" href='/question/{{question[0]}}/new_answer'>New Answer</a></p>
+            <p class="back-button"><a id="back" href="/"> <-- Back to questions</a></p>
+            {% else %}
+                <br>
+                <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
+                    <label for="new_answer">Your Answer:</label><br>
+                    <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea>
+                    <p><input type="submit" id="submit" value="Send"><p>
+                </form>
+            </div>
+            <p class="back-button"><a id="back" href="/question/{{question[0]}}"> <-- Back to question</a></p>
             {% endif %}
 
-            / answers: {{  answer_count }},
-            views: {{ question[2] }},
-            votes: {{ question[3] }},
-            {{ question[1] }}
-            /
-        </p>
-        <p>
-            <a href="/question/{{ question[0] }}/new-comment"> Add a comment </a>
-        </p>
-        {% if comments %}
-        <h2>Comments:</h2>
-        <ul>
-        {% for comment in comments %}
-            <li>
-                <p>{{ comment[3] }}<br>
-
-                    
-                    / {{ comment[4] }} /
-                </p>
-                <br>
-                    
-            </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-
-        {% if new_answer==False %}
-        {% if answer_count %}
-        <h2>Answers:</h2>
-        {% endif %}
-        <ul>
-        {% for answer in answers %}
-            <li>
-                <p>{{ answer[4] }}<br>
-
-                    {% if answer[5] %}
-                        <a href="/static/{{ answer[5] }}" target="_blank"><img src="/static/{{ answer[5] }}" width="60" alt="Image"></a><br>
-                    {% endif %}
-                    / votes: {{ answer[2] }},
-                    {{ answer[1] }}
-                    /
-                </p>
-                <br>
-                    
-            </li>
-        {% endfor %}
-        </ul>
-        <button type="button" id="new_answer" 
-                onclick="window.location.href='/question/{{question[0]}}/new_answer'">New Answer</button><br>
-        {% else %}
-        <br>
-        <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
-            <label for="new_answer">Your Answer:</label><br>
-            <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea><br><br>
-            <input type="submit" id="submit" value="Send">
-        </form>
-        {% endif %}
-
-        <p><a href="/">Back to questions</a></p>
 
         
         
+        </div>
     </body>
 </html>
