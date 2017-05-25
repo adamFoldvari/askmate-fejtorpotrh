@@ -66,8 +66,6 @@ form {
 
 table {
     border: 1px solid #143153;
-    padding: 0;
-    margin: 0;
     background-color: #143153;
 }
 
@@ -78,6 +76,7 @@ th {
 
 td {
     background-color: white;
+    /*width: 65px;*/
 }
 
 th, td {
@@ -88,6 +87,10 @@ th, td {
 td.link:hover {
     background-color: #ddd;
     cursor: pointer;
+}
+
+.arrow-icon {
+    width: 14px;
 }
 
 input[type=text],
@@ -142,7 +145,53 @@ input[type=submit] {
     padding-bottom: 1em;
 }
 
-#comments {
+#tags {
+    margin: 0;
+}
+
+#tags ul {
+    list-style-type: none;
+    
+}
+
+#tags ul li {
+    display: inline;
+    color: #555;
+    background-color: #eee;
+    padding: .5em .8em;
+    font-size: 0.8em;
+}
+
+#tags img {
+    margin: 0;
+}
+
+#tags a {
+    margin-right: 1em;
+
+}
+
+#existing-tag {
+    display: inline;
+}
+
+#existing-tags #existing-tag a {
+    color: #555;
+    background-color: #eee;
+}
+
+#existing-tags #existing-tag a:hover {
+    background-color: #555;
+    color: #eee;
+}
+
+
+#existing-tags,
+#existing-tags p {
+    padding-left: 0;
+}
+
+#comments{
     margin: 1em 0;
     padding-left: 2em;
 }
