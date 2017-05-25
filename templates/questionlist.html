@@ -20,14 +20,6 @@
         {% if questions %}
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
-                <!--<th>ID<br>
-                    <form action="{{ url_for('listing') + '?id=ASC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
-                    </form>
-                    <form action="{{ url_for('listing') + '?id=DESC'}}" method="POST">
-                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
-                    </form>
-                </th>-->
                 <th>Submission time<br>
                     <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" border="0" alt="Submit"/>
@@ -61,37 +53,27 @@
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" border="0" alt="Submit"/>
                     </form>
                 </th>            
-                <!--<th>Message
-                    <form action="{{ url_for('listing') + '?message=ASC'}}" method="POST">
-                        <input type="image" src="/static/icons/arrow_down.png" border="0"  height="20" alt="Submit"/>
-                    </form>
-                    <form action="{{ url_for('listing') + '?message=DESC'}}" method="POST">
-                        <input type="image" src="/static/icons/arrow_up.png" border="0"  height="20" alt="Submit"/>
-                    </form>
-                </th>-->
                 <th>Image</th>
                 <th>View</th>
                 <th>Delete</th>
             </tr>
             {% for question in questions %}
                 <tr bgcolor = "White">
-                    <!--<td align="center">{{question[0]}}</td>-->
                     <td align="center">{{question[1]}}</td>
                     <td align="center">{{ answer_count_list(question[0]) }}</td>
                     <td align="center">{{question[2]}}</td>
                     <td align="center">{{question[3]}}</td>
                     <td style="word-wrap: break-word;">{{question[4]}}</td>
-                    <!--<td style="word-wrap: break-word;">{{question[5]}}</td>-->
                     <td align="center">
                     {% if question[6] %}
                         <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" style="width: 60px" alt="image"></a>
                     {% endif %}
                     </td>
                     <td align="center" class="link">
-                        <a href="/question/{{question[0]}}/viewcount"><img src="/static/icons/eye_icon.png" width="40" height="40" alt="display_question"></a>
+                        <a href="/question/{{question[0]}}/viewcount"><img src="/static/icons/eye_icon.png" width="40" alt="display_question"></a>
                     </td> 
                     <td align='center' class="link"> 
-                        <a href='/question/{{question[0]}}/delete'><img src='/static/icons/trash.png' width="40" height="40" alt='delete_question'></a>
+                        <a href='/question/{{question[0]}}/delete'><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             {% endfor %}

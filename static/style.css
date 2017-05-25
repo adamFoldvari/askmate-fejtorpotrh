@@ -72,25 +72,21 @@ table {
 
 th {
     background-color: #bbb;
+    padding: 0.5em 1em;
 }
 
 td {
     background-color: white;
-    /*width: 65px;*/
+    padding: 0 1em;
 }
 
 th, td {
-    padding: 0 1em;
     border: none;
-}
-
-td.link:hover {
-    background-color: #ddd;
-    cursor: pointer;
 }
 
 .arrow-icon {
     width: 14px;
+    padding-top: 10px;
 }
 
 input[type=text],
@@ -111,7 +107,7 @@ a#main-header {
 }
 
 a:hover {
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 img {
@@ -123,14 +119,19 @@ input[type=submit] {
     background:#ccc; 
     border:0 none;
     cursor:pointer;
-    /*-webkit-border-radius: 5px;
-    border-radius: 5px; */
+}
+
+i, .link a {
+    color: #aa1100;
+    margin: 0 auto;
+    width: auto;
+    display: inline-block;
 }
 
 #content-wrapper {
     background-color: #ddd;
     margin: 0 10%;
-    padding: 0.5em 2em 2em;
+    padding: 0 2em 2em;
 }
 
 #question-desc,
@@ -151,7 +152,7 @@ input[type=submit] {
 
 #tags ul {
     list-style-type: none;
-    
+    padding-left: 2em;   
 }
 
 #tags ul li {
@@ -175,6 +176,11 @@ input[type=submit] {
     display: inline;
 }
 
+#existing-tag a {
+    margin-left: 0;
+    margin-right: 1em;
+}
+
 #existing-tags #existing-tag a {
     color: #555;
     background-color: #eee;
@@ -189,6 +195,7 @@ input[type=submit] {
 #existing-tags,
 #existing-tags p {
     padding-left: 0;
+    margin: 2em 0;
 }
 
 #comments{

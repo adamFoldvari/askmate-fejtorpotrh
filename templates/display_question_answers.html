@@ -7,7 +7,6 @@
     </head>
     <body>
         <a id="main-header" href="/"><h1>AskMate</h1></a>
-        <!--<h2>Question:</h2>-->
         <div id="content-wrapper">
             <div id="question-wrapper">
                 <h3 id="question">{{ question[4] }} </h3>
@@ -17,7 +16,7 @@
                     <p><a href="/static/{{ question[6] }}"><img src="/static/{{ question[6] }}" width="60" alt="Image"></a></p>
                 {% endif %}
 
-                    <p id="question-data"> /<!--/ answers: {{  answer_count }},-->
+                    <p id="question-data"> /
                         views: {{ question[2] }},
                         votes: {{ question[3] }},
                         {{ question[1] }}
@@ -27,19 +26,11 @@
         {% if new_answer==False %}
 
         {% if tags %}
-            <!--<h4>Tags:</h4>-->
             <div id="tags">
                 <ul>
                 {% for tag in tags %}
-                    
-                    <li>{{ tag[1] }}
-
-
-                    </li>
+                    <li>{{ tag[1] }}</li>
                     <a href="/question/{{ question[0] }}/tag/{{ tag[0] }}/delete"><img src="/static/icons/red_X.png" width="15" height="15" alt="display_question"></a>
-        
-
-        
                 {% endfor %}
                 </ul>
             </div>
