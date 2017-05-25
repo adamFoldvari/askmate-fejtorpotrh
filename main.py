@@ -60,6 +60,7 @@ def display_q_and_a(question_id, new_answer=False):
     [question] = [question for question in questions if question[0] == int(question_id)]
     answers_for_question = data_manager.answers_for_question(int(question_id))
     answer_count = data_manager.answer_count(question_id)
+    tags = data_manager.get_tags_for_question(question_id)
     comments = data_manager.get_comments_for_question(question_id)
     if request.method == "POST":
         answer_id = None
@@ -73,7 +74,7 @@ def display_q_and_a(question_id, new_answer=False):
     if request.url.endswith("new_answer"):
         new_answer = True
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
-                           new_answer=new_answer, answer_count=answer_count, comments=comments)
+                           new_answer=new_answer, answer_count=answer_count, tags=tags, comments=comments)
 
 
 @app.route('/question/<question_id>/viewcount')
@@ -86,6 +87,36 @@ def view_counter(question_id):
 def delete_question(question_id):
     data_manager.delete_question_and_answers(question_id)
     return redirect('/')
+
+
+@app.route('/question/<question_id>/new-tag/')
+def add_tag_form(question_id):
+    existing_tags = data_manager.get_existing_tags()
+    return render_template('new_tag.html', question_id=question_id, existing_tags=existing_tags)
+
+
+@app.route('/question/<question_id>/existing-tag/<existing_tag_id>')
+def add_existing_tag_to_question(question_id, existing_tag_id):
+    data_manager.add_existing_tag_to_question(question_id, existing_tag_id)
+    return redirect(url_for('display_q_and_a', question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-tag/add', methods=['POST'])
+def add_new_tag_to_question(question_id):
+    existing_tags = data_manager.get_existing_tags()
+    existing_tag_names = [tag[1] for tag in existing_tags]
+    new_tag_name = request.form['name']
+    if new_tag_name in existing_tag_names:
+        return render_template('new_tag.html', question_id=question_id, existing_tags=existing_tags,
+                               new_tag_error_message="This tag already exists! Please, type here another one!")
+    data_manager.add_new_tag_to_question(question_id, new_tag_name)
+    return redirect(url_for('display_q_and_a', question_id=question_id))
+
+
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_tag(question_id, tag_id):
+    data_manager.delete_tag(question_id, tag_id)
+    return redirect(url_for('display_q_and_a', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-comment')

@@ -40,6 +40,9 @@ def query_result(*query):
         print(e)
         print("Nothing to print")
         rows = ""
+    except psycopg2.IntegrityError as e:
+        print(e)
+        rows = ""
     finally:
         if conn:
             conn.close()
@@ -108,6 +111,33 @@ def delete_question_and_answers(question_id):
 def add_comment_to_db(question_id, message, submission_time):
     query_result("""INSERT INTO comment (question_id, message, submission_time)
                     VALUES (%s, %s, %s);""", (question_id, message, submission_time))
+
+
+def get_tags_for_question(question_id):
+    tags = query_result("SELECT * FROM tag WHERE id IN (SELECT tag_id FROM question_tag WHERE question_id = %s);",
+                        (question_id,))
+    return tags
+
+
+def get_existing_tags():
+    existing_tags = query_result("""SELECT * FROM tag;""")
+    return existing_tags
+
+
+def add_existing_tag_to_question(question_id, existing_tag_id):
+    query_result("""INSERT INTO question_tag (question_id, tag_id)
+                    VALUES (%s, %s);""", (int(question_id), int(existing_tag_id)))
+
+
+def add_new_tag_to_question(question_id, new_tag_name):
+    query_result("""INSERT INTO tag (name) VALUES (%s);""", (new_tag_name, ))
+    tag_id = query_result("SELECT id FROM tag WHERE name = " + "'" + new_tag_name + "'")
+    query_result("""INSERT INTO question_tag (question_id, tag_id)
+                    VALUES (%s, %s);""", (int(question_id), tag_id[0][0]))
+
+
+def delete_tag(question_id, tag_id):
+    query_result("DELETE FROM question_tag WHERE question_id="+question_id+" AND tag_id="+tag_id+";")
 
 
 def get_comments_for_question(question_id):

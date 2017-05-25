@@ -3,6 +3,7 @@
     <head>
         <title>{{ question[4]}} </title>
         <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     </head>
     <body>
         <a id="main-header" href="/"><h1>AskMate</h1></a>
@@ -24,6 +25,29 @@
                     </p> 
                 </div>
         {% if new_answer==False %}
+
+        {% if tags %}
+            <!--<h4>Tags:</h4>-->
+            <div id="tags">
+                <ul>
+                {% for tag in tags %}
+                    
+                    <li>{{ tag[1] }}
+
+
+                    </li>
+                    <a href="/question/{{ question[0] }}/tag/{{ tag[0] }}/delete"><img src="/static/icons/red_X.png" width="15" height="15" alt="display_question"></a>
+        
+
+        
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+            <p class="button">
+                <a href="/question/{{ question[0] }}/new-tag"> Add a tag </a>
+            </p>
         {% if comments %}
             <div id="comments">
                 <h4>Comments:</h4>
