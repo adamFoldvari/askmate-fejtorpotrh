@@ -23,7 +23,7 @@
         <p>{{new_tag_error_message}}</p>
       {% endif %}
       <form action='/question/{{ question_id }}/new-tag/add' method='POST'>
-          <p><input type="text" name="name" required></p>
+          <p><input type="text" name="name" required maxlength="20"></p>
           <p><input type="submit" value="Create tag" id="create_tag"></p>
       </form>
       <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
