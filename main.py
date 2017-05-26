@@ -136,7 +136,6 @@ def add_comment_to_question(question_id):
 def search():
     search_phrase = str(request.query_string)
     search_text = search_phrase[search_phrase.index('=') + 1:-1]
-    print('search text:', search_text)
     questions = data_manager.search(search_text)
     answer_count_list = data_manager.answer_count
 
