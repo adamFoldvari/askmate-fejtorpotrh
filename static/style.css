@@ -279,6 +279,7 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: #143153;
     color: white;
+    opacity: 1;
 }
 
 .back-button {
