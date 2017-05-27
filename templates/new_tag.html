@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Add new tag</title>
-    <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
-  </head>
-  <body>
-    <h1>AskMate</h1>
-    <div id="content-wrapper">
-      <h3>Add new tag</h3>
-      {% if existing_tags %}
-      <h4>Choose from existing tags:</h4>
-      <ul id="existing-tags">
-      {% for existing_tag in existing_tags %}
-        <p class="button" id="existing-tag"><a href="/question/{{ question_id }}/existing-tag/{{ existing_tag[0]}}">{{ existing_tag[1] }}</a></p>
-      {% endfor %}
-      </ul>
-      {% endif %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Add new tag</title>
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+    </head>
+    <body>
+        <h1>AskMate</h1>
+        <div id="content-wrapper">
+            <h3>Add new tag</h3>
+            {% if existing_tags %}
+            <h4>Choose from existing tags:</h4>
+            <div id="existing-tags">
+            {% for existing_tag in existing_tags %}
+                <p class="button" id="existing-tag"><a href="/question/{{ question_id }}/existing-tag/{{ existing_tag[0]}}">{{ existing_tag[1] }}</a></p>
+            {% endfor %}
+            </div>
+            {% endif %}
 
-      <h4>Create a new tag:</h4>
-      {% if new_tag_error_message %}
-        <p>{{new_tag_error_message}}</p>
-      {% endif %}
-      <form action='/question/{{ question_id }}/new-tag/add' method='POST'>
-          <p><input type="text" name="name" required maxlength="20"></p>
-          <p><input type="submit" value="Create tag" id="create_tag"></p>
-      </form>
-      <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
-    </div>
-  </body>
+            <h4>Create a new tag:</h4>
+            {% if new_tag_error_message %}
+            <p>{{new_tag_error_message}}</p>
+            {% endif %}
+            <form action='/question/{{ question_id }}/new-tag/add' method='POST'>
+            <p><input type="text" name="name" required maxlength="20"></p>
+            <p><input type="submit" value="Create tag" id="create_tag"></p>
+            </form>
+            <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
+        </div>
+    </body>
+</html>
