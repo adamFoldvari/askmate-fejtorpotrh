@@ -62,24 +62,23 @@ def display_q_and_a(question_id, new_answer=False):
     answer_count = data_manager.answer_count(question_id)
     tags = data_manager.get_tags_for_question(question_id)
     comments = data_manager.get_comments_for_question(question_id)
-    user_names = []
+    users = []
     if request.method == "POST":
         answer_id = None
         time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         votes = "0"
         new_answer_message = request.form["new_answer"].replace("\r\n", "\n")
         image = None
-        new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image]
+        user_id = request.form['user']
+        new_answer_data = [answer_id, time_now, votes, question_id, new_answer_message, image, user_id]
         data_manager.write_answer_to_db(new_answer_data)
         return redirect(url_for('display_q_and_a', question_id=question_id))
     if request.url.endswith("new_answer"):
         new_answer = True
         users = data_manager.get_existing_users()
-        for user in users:
-            user_names.append(user[1])
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
                            new_answer=new_answer, answer_count=answer_count, tags=tags, comments=comments,
-                           user_names=user_names)
+                           users=users)
 
 
 @app.route('/question/<question_id>/viewcount')

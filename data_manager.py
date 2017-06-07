@@ -87,8 +87,8 @@ def answers_for_question(question_id):
 
 def write_answer_to_db(row):
     '''Write the ANSWER @row into the database.'''
-    query_result("""INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-                    VALUES(%s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5]))
+    query_result("""INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+                    VALUES(%s, %s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5], row[6]))
 
 
 def add_view_number(question_id):
