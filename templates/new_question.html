@@ -17,9 +17,9 @@
         {% if question_id %}
             <h3>Add new comment:</h3>
             <form action='/question/{{ question_id }}/new-comment/add' method='POST'>
-            <label for="comment">Your Comment:</label>
+            <label for="comment">Your comment:</label>
             <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
-            <label for="username">Choose User:</label><br>
+            <label for="username">Choose user:</label><br>
             <select name="user_id" id="user_id">
                 {% for user in users %}
                     <option value= {{ user[0] }}>{{ user[1] }}</option>
@@ -39,9 +39,9 @@
         {% else %}
             <h3>Add new question:</h2>
             <form action='/new_question/add' method='POST'>
-                <label for="question_title"> Question Title:</label>
+                <label for="question_title"> Question title:</label>
                 <p><input type="text" name="question_title" id="question_title" required></p>
-                <label for="question"> Your Question: </label>
+                <label for="question"> Your question: </label>
                 <p><textarea rows="8" cols="50" name="question" id="question" minlength="10" required></textarea></p>
                 <p><input type="submit" value="ASK" id="updated"></p>
             </form>
