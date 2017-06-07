@@ -5,6 +5,8 @@
         <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
         {% if question_id %}
         <title>Add new comment</title>
+        {% elif registration %}
+        <title>Register new user</title>
         {% else %}
         <title>Add new question</title>
         {% endif %}
@@ -17,9 +19,17 @@
             <form action='/question/{{ question_id }}/new-comment/add' method='POST'>
             <label for="comment">Your Comment:</label>
             <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
-            <p><input type="submit" value="Comment" id="uptaded"></p>
+            <p><input type="submit" value="Comment" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
+        {% elif registration %}
+            <h3>Register new user:</h3>
+            <form action='/register' method='POST'>
+            <label for="username">Username:</label>
+            <p><textarea rows="8" cols="50" name="username" id="username" minlength="3" required></textarea></p>
+            <p><input type="submit" value="Register" id="updated"></p>
+            </form>
+            <p class="back-button"><a id="back" href="/question"><-- Back to questions</a></p>
         {% else %}
             <h3>Add new question:</h2>
             <form action='/new_question/add' method='POST'>
