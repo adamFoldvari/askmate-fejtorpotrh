@@ -53,11 +53,11 @@
             </tr>
             {% for question in questions %}
                 <tr bgcolor = "White">
-                    <td align="center">{{question[1]}}</td>
+                    <td align="center">{{ question[1] }}</td>
                     <td align="center">{{ answer_count_list(question[0]) }}</td>
-                    <td align="center">{{question[2]}}</td>
-                    <td align="center">{{question[3]}}</td>
-                    <td style="word-wrap: break-word;">{{question[4]}}</td>
+                    <td align="center">{{ question[2] }}</td>
+                    <td align="center">{{ question[3] }}</td>
+                    <td style="word-wrap: break-word;" class="title">{{ question[4] }}</td>
                     <td align="center">
                     {% if question[6] %}
                         <a href="/static/{{ question[6] }}" target="_blank"><img src="static/{{question[6]}}" alt="image"></a>
@@ -71,7 +71,129 @@
                     </td>
                 </tr>
             {% endfor %}
-            </table>
+        </table>
+        {% else %}
+        <p>No result.</p>
+        {% endif %}
+
+        <h3>Answers</h3>
+
+        {% if answers %}
+        <table border="2" bgcolor="Gainsboro">
+            <tr align="center">
+                <th>Submission time<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Question title<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Votes<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Message<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>            
+                <th>Image</th>
+                <th>View</th>
+            </tr>
+            {% for answer in answers %}
+                <tr bgcolor = "White">
+                    <td align="center">{{ answer[1] }}</td>
+                    <td align="center" class="title">{{ answer[7] }}</td>
+                    <td align="center">{{ answer[2] }}</td>
+                    <td style="word-wrap: break-word;" class="title">{{answer[4]}}</td>
+                    <td align="center">
+                    {% if answer[5] %}
+                        <a href="/static/{{ answer[5] }}" target="_blank"><img src="static/{{ answer[5] }}" alt="image"></a>
+                    {% endif %}
+                    </td>
+                    <td align="center" class="link">
+                        <a href="/question/{{ answer[3]}}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                    </td>        
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No result.</p>
+        {% endif %}
+
+        <h3>Comments</h3>
+
+        {% if comments %}
+        <table border="2" bgcolor="Gainsboro">
+            <tr align="center">
+                <th>Submission time<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Question title<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Answer title<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Message<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>            
+                <th>View</th>
+            </tr>
+            {% for comment in comments %}
+            
+
+                <tr bgcolor = "White">
+                    <td align="center">{{ comment[4] }}</td>
+                    <td align="center">{{ comment[7] }}</td>
+                    {% if comment[8] %}
+                    <td align="center">{{ comment[8] }}</td>
+                    {% else %}
+                    <td align="center"></td>
+                    {% endif %}
+                    <td style="word-wrap: break-word;" class="title">{{comment[3]}}</td>
+                    <td align="center" class="link">
+                        <a href="/question/{{ comment[1]}}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                    </td>    
+                </tr>
+            {% endfor %}
+        </table>
         {% else %}
         <p>No result.</p>
         {% endif %}
