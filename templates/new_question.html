@@ -24,9 +24,9 @@
             <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
         {% elif registration %}
             <h3>Register new user:</h3>
-            <form action='/register' method='POST'>
+            <form action='/registration' method='POST'>
             <label for="username">Username:</label>
-            <p><textarea rows="8" cols="50" name="username" id="username" minlength="3" required></textarea></p>
+            <p><textarea rows="1" cols="10" name="username" id="username" minlength="3" required></textarea></p>
             <p><input type="submit" value="Register" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/question"><-- Back to questions</a></p>
