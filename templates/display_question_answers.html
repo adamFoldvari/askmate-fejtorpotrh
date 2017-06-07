@@ -23,6 +23,7 @@
                         /
                     </p> 
                 </div>
+
         {% if new_answer==False %}
 
         {% if tags %}
@@ -88,7 +89,14 @@
                 <br>
                 <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
                     <label for="new_answer">Your Answer:</label><br>
-                    <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea>
+                    <p><textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea></p>
+                    <label for="user">Choose User:</label> <br>
+                        <select name="user" id="user">
+                        {% for user in users %}
+                        <option value= {{ user[0] }}>{{ user[1] }}</option>
+                        {% endfor %}
+                        </select>
+                    </p>
                     <p><input type="submit" id="submit" value="Send"><p>
                 </form>
             </div>
