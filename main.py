@@ -144,6 +144,12 @@ def search():
                            search_text=search_text)
 
 
+@app.route('/list_users', methods=['GET', 'POST'])
+def list_users():
+    users = data_manager.get_existing_users()
+    return render_template("list_users.html", users=users)
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
