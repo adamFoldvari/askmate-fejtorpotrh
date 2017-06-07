@@ -137,7 +137,7 @@ def add_new_tag_to_question(question_id, new_tag_name):
 
 
 def delete_tag(question_id, tag_id):
-    query_result("DELETE FROM question_tag WHERE question_id="+question_id+" AND tag_id="+tag_id+";")
+    query_result("DELETE FROM question_tag WHERE question_id=" + question_id + " AND tag_id=" + tag_id + ";")
 
 
 def get_comments_for_question(question_id):
@@ -164,3 +164,12 @@ def search(search_text):
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
 
     return questions
+
+
+def user_data(user_id):
+    [[user_name]] = query_result("""SELECT name FROM users where id = %s;""", (user_id,))
+    questions = query_result("""SELECT * from question WHERE user_id = %s;""", (user_id,))
+    answers = query_result("""SELECT * from answer WHERE user_id = %s;""", (user_id,))
+    comments = query_result("""SELECT * from comment WHERE user_id = %s;""", (user_id,))
+
+    return user_name, questions, answers, comments
