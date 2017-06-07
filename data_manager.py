@@ -169,3 +169,8 @@ def search(search_text):
 def register_user(row):
     query_result("""INSERT INTO users (name, register_date)
                     VALUES (%s, %s);""", (row[0], row[1]))
+
+
+def get_existing_users(field_name='name', sorting_direction='ASC'):
+    users = query_result("SELECT * FROM users ORDER BY "+field_name+" "+sorting_direction)
+    return users

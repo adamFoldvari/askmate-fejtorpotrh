@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AskMate project - List of users</title>
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+  </head>
+  <body>
+    <h1>AskMate</h1>
+    <div id="content-wrapper">
+        <h3>Users</h3>
+        <p class="button"><a id="new-user" href='/registration'>New User</a></p>
+
+        {% if users %}
+        <table border="2" bgcolor="Gainsboro">
+            <tr align="center">
+                <th>Name<br>
+                    <form action="{{ url_for('list_users') + '?name=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('list_users') + '?name=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>Registry Date<br>
+                    <form action="{{ url_for('list_users') + '?register_date=ASC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                    </form>
+                    <form action="{{ url_for('list_users') + '?register_date=DESC'}}" method="POST">
+                        <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                    </form>
+                </th>
+                <th>View</th>
+            </tr>
+            {% for user in users %}
+                <tr bgcolor = "White">
+                    <td align="center">{{user[1]}}</td>
+                    <td align="center">{{user[2]}}</td>
+                    <td align="center" class="link">
+                        <a href="/user/{{user[0]}}"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                    </td> 
+                    <!-- <td align='center' class="link"> 
+                        <a href='/user/delete/{{user[0]}}'><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a>
+                    </td> -->
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+
+        {% else %}
+        <p>No users recently.</p>
+
+        {% endif %}
+
+        <p class="back-button"><a id="back" href="/"><-- Back to questions</a></p>
+    </div>
+  </body>
+</html>
