@@ -146,7 +146,13 @@ def search():
 
 @app.route('/list_users', methods=['GET', 'POST'])
 def list_users():
-    users = data_manager.get_existing_users()
+    if request.method == "POST":
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        users = data_manager.get_existing_users(key[0], value[0])
+    else:
+        users = data_manager.get_existing_users()
     return render_template("list_users.html", users=users)
 
 
