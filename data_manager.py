@@ -166,9 +166,14 @@ def search(search_text):
     return questions
 
 
-def user_data(user_id):
+def user_data(user_id, field_name="id", sorting_direction='ASC'):
     [[user_name]] = query_result("""SELECT name FROM users where id = %s;""", (user_id,))
-    questions = query_result("""SELECT * from question WHERE user_id = %s;""", (user_id,))
+    if field_name:
+        questions = query_result("""SELECT * from question
+                                    WHERE user_id = %s ORDER BY %s || quote_nullable(%s);""",
+                                 (user_id, field_name, sorting_direction))
+    else:
+        questions = query_result("""SELECT * from question WHERE user_id = %s;""", (user_id,))
     answers = query_result("""SELECT * from answer WHERE user_id = %s;""", (user_id,))
     comments = query_result("""SELECT * from comment WHERE user_id = %s;""", (user_id,))
 

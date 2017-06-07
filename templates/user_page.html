@@ -15,35 +15,35 @@
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Submission time<br>
-                    <form action="{{ url_for('listing') + '?submission_time=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('listing') + '?submission_time=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Answers</th>
                 <th>Views<br>
-                    <form action="{{ url_for('listing') + '?view_number=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('listing') + '?view_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Votes<br>
-                    <form action="{{ url_for('listing') + '?vote_number=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('listing') + '?vote_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Title<br>
-                    <form action="{{ url_for('listing') + '?title=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('listing') + '?title=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
@@ -71,7 +71,7 @@
                     </td>
                 </tr>
             {% endfor %}
-        </table>
+            </table>
         {% else %}
         <p>No result.</p>
         {% endif %}

@@ -144,12 +144,18 @@ def search():
                            search_text=search_text)
 
 
-@app.route('/user/<user_id>')
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
 def user_page(user_id):
-    user_name, questions, answers, comments = data_manager.user_data(user_id)
+    if request.method == "POST":
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        user_name, questions, answers, comments = data_manager.user_data(user_id, key[0], value[0])
+    else:
+        user_name, questions, answers, comments = data_manager.user_data(user_id)
     answer_count_list = data_manager.answer_count
 
-    return render_template("user_page.html", user_name=user_name, questions=questions,
+    return render_template("user_page.html", user_id=user_id, user_name=user_name, questions=questions,
                            answer_count_list=answer_count_list, answers=answers, comments=comments)
 
 if __name__ == '__main__':
