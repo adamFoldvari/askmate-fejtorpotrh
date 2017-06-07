@@ -144,6 +144,17 @@ def search():
                            search_text=search_text)
 
 
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    if request.method == 'POST':
+        user_name = request.form['username']
+        time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        row = [user_name, time_now]
+        data_manager.register_user(row)
+        return redirect('/')
+    return render_template('new_question.html', registration=True)
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
