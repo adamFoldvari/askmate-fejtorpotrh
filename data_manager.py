@@ -164,3 +164,8 @@ def search(search_text):
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
 
     return questions
+
+
+def register_user(row):
+    query_result("""INSERT INTO users (name, register_date)
+                    VALUES (%s, %s);""", (row[0], row[1]))
