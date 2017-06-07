@@ -23,6 +23,15 @@
                         /
                     </p> 
                 </div>
+        {% if new_answer == True %}
+            <select>
+                {% for user in user_names %}
+                <option value="user">{{ user }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+
+
         {% if new_answer==False %}
 
         {% if tags %}

@@ -62,6 +62,7 @@ def display_q_and_a(question_id, new_answer=False):
     answer_count = data_manager.answer_count(question_id)
     tags = data_manager.get_tags_for_question(question_id)
     comments = data_manager.get_comments_for_question(question_id)
+    user_names = []
     if request.method == "POST":
         answer_id = None
         time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -73,8 +74,12 @@ def display_q_and_a(question_id, new_answer=False):
         return redirect(url_for('display_q_and_a', question_id=question_id))
     if request.url.endswith("new_answer"):
         new_answer = True
+        users = data_manager.get_existing_users()
+        for user in users:
+            user_names.append(user[1])
     return render_template("display_question_answers.html", question=question, answers=answers_for_question,
-                           new_answer=new_answer, answer_count=answer_count, tags=tags, comments=comments)
+                           new_answer=new_answer, answer_count=answer_count, tags=tags, comments=comments,
+                           user_names=user_names)
 
 
 @app.route('/question/<question_id>/viewcount')

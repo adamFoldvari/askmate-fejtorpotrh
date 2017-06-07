@@ -137,7 +137,7 @@ def add_new_tag_to_question(question_id, new_tag_name):
 
 
 def delete_tag(question_id, tag_id):
-    query_result("DELETE FROM question_tag WHERE question_id="+question_id+" AND tag_id="+tag_id+";")
+    query_result("DELETE FROM question_tag WHERE question_id=" + question_id + " AND tag_id=" + tag_id + ";")
 
 
 def get_comments_for_question(question_id):
@@ -172,5 +172,5 @@ def register_user(row):
 
 
 def get_existing_users(field_name='name', sorting_direction='ASC'):
-    users = query_result("SELECT * FROM users ORDER BY "+field_name+" "+sorting_direction)
+    users = query_result("SELECT * FROM users ORDER BY " + field_name + " " + sorting_direction)
     return users
