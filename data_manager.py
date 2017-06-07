@@ -52,14 +52,19 @@ def query_result(*query):
 
 def get_questions(field_name='submission_time', sorting_direction='DESC', first_five_only=False):
     '''Read the QUESTIONS into a @table.
-        first_five_only gets only tha latest 5 questions
+
+    @first_five_only: gets only the latest 5 questions
     @table: list of lists of strings
     '''
     if first_five_only:
-        questions = query_result("""SELECT * FROM question ORDER BY submission_time DESC LIMIT 5;""")
+        questions = query_result(
+            """SELECT question.*, users.name FROM question
+               LEFT JOIN users ON question.user_id = users.id
+               ORDER BY submission_time DESC LIMIT 5;""")
     else:
-        questions = query_result("SELECT * FROM question ORDER BY " +
-                                 field_name + " " + sorting_direction)
+        questions = query_result("""SELECT question.*, users.name FROM question
+               LEFT JOIN users ON question.user_id = users.id
+               ORDER BY %s || quote_nullable(%s)""", (field_name, sorting_direction))
     MESSAGE = 5
     for question in questions:
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
@@ -77,7 +82,9 @@ def write_question_to_db(row):
 
 
 def answers_for_question(question_id):
-    answers = query_result("""SELECT * FROM answer WHERE question_id = %s;""", (question_id,))
+    answers = query_result("""SELECT answer.*, users.name FROM answer
+                              LEFT JOIN users ON answer.user_id = users.id
+                              WHERE question_id = %s;""", (question_id,))
     MESSAGE = 4
     for answer in answers:
         answer[MESSAGE] = Markup(answer[MESSAGE].replace("\n", "<br>"))
@@ -141,7 +148,9 @@ def delete_tag(question_id, tag_id):
 
 
 def get_comments_for_question(question_id):
-    comments = query_result("""SELECT * FROM comment WHERE question_id = %s;""", (question_id,))
+    comments = query_result("""SELECT comment.*, users.name FROM comment
+                               LEFT JOIN users ON comment.user_id = users.id
+                               WHERE question_id = %s;""", (question_id,))
     return comments
 
 
