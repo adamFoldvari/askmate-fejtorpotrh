@@ -15,6 +15,10 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS pk_ques
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.question DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.comment DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.answer DROP CONSTRAINT IF EXISTS fk_user_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_user_id CASCADE;
 
 DROP TABLE IF EXISTS public.question;
 DROP SEQUENCE IF EXISTS public.question_id_seq;
@@ -25,7 +29,8 @@ CREATE TABLE question (
     vote_number integer,
     title text,
     message text,
-    image text
+    image text,
+    user_id INTEGER
 );
 
 DROP TABLE IF EXISTS public.answer;
@@ -36,7 +41,8 @@ CREATE TABLE answer (
     vote_number integer,
     question_id integer,
     message text,
-    image text
+    image text,
+    user_id INTEGER
 );
 
 DROP TABLE IF EXISTS public.comment;
@@ -47,7 +53,8 @@ CREATE TABLE comment (
     answer_id integer,
     message text,
     submission_time timestamp without time zone,
-    edited_count integer
+    edited_count integer,
+    user_id INTEGER
 );
 
 
@@ -62,6 +69,14 @@ DROP SEQUENCE IF EXISTS public.tag_id_seq;
 CREATE TABLE tag (
     id serial NOT NULL,
     name text
+);
+
+DROP TABLE IF EXISTS public.users;
+DROP SEQUENCE IF EXISTS public.users_id_seq;
+CREATE TABLE users (
+    id serial NOT NULL,
+    name TEXT,
+    register_date timestamp without time zone
 );
 
 
@@ -100,6 +115,24 @@ ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id)
     ON DELETE CASCADE;
 
+ALTER TABLE ONLY users
+    ADD CONSTRAINT pk_user_id PRIMARY KEY (id);
+
+ALTER TABLE ONLY answer
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE ONLY question
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE ONLY comment
+    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE;
+
+INSERT INTO users VALUES (1, 'Freddie Mercury', '2017-05-01 10:41:00');
+SELECT pg_catalog.setval('users_id_seq', 1, true);
+
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL);
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 
@@ -112,11 +145,13 @@ booklet
 app.js (bundled file with webpack, including jquery)', 'images/image1.png');
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', NULL);
-SELECT pg_catalog.setval('question_id_seq', 2, true);
+INSERT INTO question VALUES (3, '2017-06-01 10:41:00', 13, 5, 'Is this the real life?', 'Is this just fantasy?', NULL, 1);
+SELECT pg_catalog.setval('question_id_seq', 3, true);
 
 INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL);
 INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg');
-SELECT pg_catalog.setval('answer_id_seq', 2, true);
+INSERT INTO answer VALUES (3, '2017-06-02 16:49:00', 1, 3, 'Another One Bites The Dust', NULL, 1);
+SELECT pg_catalog.setval('answer_id_seq', 3, true);
 
 INSERT INTO comment VALUES (1, 0, NULL, 'Please clarify the question as it is too vague!', '2017-05-01 05:49:00');
 INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
