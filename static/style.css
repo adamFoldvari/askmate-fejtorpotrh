@@ -85,7 +85,7 @@ th, td {
 }
 
 /* Question cell in table */
-tr>td:nth-child(5) {
+.title {
     font-size: 1.1em;
 }
 

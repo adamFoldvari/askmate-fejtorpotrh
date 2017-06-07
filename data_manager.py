@@ -174,3 +174,22 @@ def register_user(row):
 def get_existing_users(field_name='name', sorting_direction='ASC'):
     users = query_result("SELECT * FROM users ORDER BY " + field_name + " " + sorting_direction)
     return users
+
+
+def user_data(user_id, field_name="id", sorting_direction='ASC'):
+    [[user_name]] = query_result("""SELECT name FROM users where id = %s;""", (user_id,))
+    if field_name:
+        questions = query_result("""SELECT * from question
+                                    WHERE user_id = %s ORDER BY %s || quote_nullable(%s);""",
+                                 (user_id, field_name, sorting_direction))
+    else:
+        questions = query_result("""SELECT * from question WHERE user_id = %s;""", (user_id,))
+    answers = query_result("""SELECT answer.*, question.title  from answer
+                              JOIN question ON answer.question_id = question.id
+                              WHERE answer.user_id = %s;""", (user_id,))
+    comments = query_result("""SELECT comment.*, question.title, answer.message FROM comment
+                               LEFT JOIN question ON comment.question_id = question.id
+                               LEFT JOIN answer ON answer.question_id = question.id
+                               WHERE comment.user_id = %s""", (user_id,))
+
+    return user_name, questions, answers, comments
