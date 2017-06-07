@@ -19,6 +19,12 @@
             <form action='/question/{{ question_id }}/new-comment/add' method='POST'>
             <label for="comment">Your Comment:</label>
             <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
+            <label for="username">Choose User:</label><br>
+            <select name="user_id" id="user_id">
+                {% for user in users %}
+                    <option value= {{ user[0] }}>{{ user[1] }}</option>
+                {% endfor %}
+            </select>
             <p><input type="submit" value="Comment" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>

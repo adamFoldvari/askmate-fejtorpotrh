@@ -121,14 +121,16 @@ def delete_tag(question_id, tag_id):
 
 @app.route('/question/<question_id>/new-comment')
 def add_comment_form(question_id):
-    return render_template('new_question.html', question_id=question_id)
+    users = data_manager.get_existing_users()
+    return render_template('new_question.html', question_id=question_id, users=users)
 
 
 @app.route('/question/<question_id>/new-comment/add', methods=['POST'])
 def add_comment_to_question(question_id):
     submission_time = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     message = request.form['comment']
-    data_manager.add_comment_to_db(question_id, message, submission_time)
+    user_id = request.form['user_id']
+    data_manager.add_comment_to_db(question_id, message, submission_time, user_id)
     return redirect(url_for('display_q_and_a', question_id=question_id))
 
 

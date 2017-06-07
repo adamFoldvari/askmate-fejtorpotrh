@@ -108,9 +108,9 @@ def delete_question_and_answers(question_id):
     query_result("""DELETE FROM question WHERE id = %s;""", (question_id,))
 
 
-def add_comment_to_db(question_id, message, submission_time):
-    query_result("""INSERT INTO comment (question_id, message, submission_time)
-                    VALUES (%s, %s, %s);""", (question_id, message, submission_time))
+def add_comment_to_db(question_id, message, submission_time, user_id):
+    query_result("""INSERT INTO comment (question_id, message, submission_time, user_id)
+                    VALUES (%s, %s, %s, %s);""", (question_id, message, submission_time, user_id))
 
 
 def get_tags_for_question(question_id):
