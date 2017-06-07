@@ -23,14 +23,6 @@
                         /
                     </p> 
                 </div>
-        {% if new_answer == True %}
-            <select>
-                {% for user in user_names %}
-                <option value="user">{{ user }}</option>
-                {% endfor %}
-            </select>
-        {% endif %}
-
 
         {% if new_answer==False %}
 
@@ -98,6 +90,11 @@
                 <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
                     <label for="new_answer">Your Answer:</label><br>
                     <textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea>
+                    <select name="user" id="user">
+                        {% for user in user_names %}
+                        <option value="user">{{ user }}</option>
+                        {% endfor %}
+                    </select>
                     <p><input type="submit" id="submit" value="Send"><p>
                 </form>
             </div>
