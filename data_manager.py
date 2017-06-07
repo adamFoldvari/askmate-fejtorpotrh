@@ -187,9 +187,10 @@ def user_data(user_id, field_name="id", sorting_direction='ASC'):
     answers = query_result("""SELECT answer.*, question.title  from answer
                               JOIN question ON answer.question_id = question.id
                               WHERE answer.user_id = %s;""", (user_id,))
-    comments = query_result("""SELECT comment.*, question.title, answer.message FROM comment
+    comments = query_result("""SELECT comment.*, question   .title, answer.message, question_2.id FROM comment
                                LEFT JOIN question ON comment.question_id = question.id
-                               LEFT JOIN answer ON answer.question_id = question.id
-                               WHERE comment.user_id = %s""", (user_id,))
+                               LEFT JOIN answer ON comment.answer_id = answer.id
+                               LEFT JOIN (SELECT * FROM question) AS question_2 ON question_2.id = answer.question_id
+                               WHERE comment.user_id= %s;""", (user_id,))
 
     return user_name, questions, answers, comments

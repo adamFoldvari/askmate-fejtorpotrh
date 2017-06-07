@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>AskMate project - List of questions</title>
-    <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
   </head>
   <body>
@@ -39,7 +39,7 @@
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Title<br>
+                <th>Question<br>
                     <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
@@ -105,7 +105,7 @@
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Message<br>
+                <th>Answer<br>
                     <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
@@ -166,7 +166,7 @@
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Message<br>
+                <th>Comment<br>
                     <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
@@ -177,19 +177,21 @@
                 <th>View</th>
             </tr>
             {% for comment in comments %}
-            
-
                 <tr bgcolor = "White">
                     <td align="center">{{ comment[4] }}</td>
+                    {% if comment[7] %}
                     <td align="center" class="title">{{ comment[7] }}</td>
+                    {% else %}
+                    <td align="center">-</td>
+                    {% endif %}
                     {% if comment[8] %}
                     <td align="center"class="title">{{ comment[8] }}</td>
                     {% else %}
-                    <td align="center"></td>
+                    <td align="center">-</td>
                     {% endif %}
                     <td style="word-wrap: break-word;" class="title">{{comment[3]}}</td>
                     <td align="center" class="link">
-                        <a href="/question/{{ comment[1]}}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                        <a href="/question/{{ comment[9] }}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
                     </td>    
                 </tr>
             {% endfor %}
@@ -198,9 +200,8 @@
         <p>No result.</p>
         {% endif %}
 
-        {% if create_link %}
-            <p class="button"><a id="show-all-question" href='/list'>Show all questions</a></p>
-        {% endif %}
+        <p class="button"><a id="list-users" href='/list_users'><-- Back to users</a></p>
+
     </div>
   </body>
 </html>
