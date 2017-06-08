@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>List of tags with count of questions</title>
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static',filename='style.css') }}">
+    </head>
+    <body>
+        <h1>AskMate</h1>
+        <div id="content-wrapper">
+            <h3>List of tags</h3>
+            {% if tags %}
+                <table border="2" bgcolor="Gainsboro">
+                    <tr align="center">
+                        <th>Tag name<br>
+                            <form action="{{ url_for('taglist') + '?name=ASC'}}" method="POST">
+                                <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                            </form>
+                            <form action="{{ url_for('taglist') + '?name=DESC'}}" method="POST">
+                                <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                            </form>
+                        </th>
+                        <th>Occurence<br>
+                            <form action="{{ url_for('taglist') + '?count=ASC'}}" method="POST">
+                                <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
+                            </form>
+                            <form action="{{ url_for('taglist') + '?count=DESC'}}" method="POST">
+                                <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
+                            </form>
+                        </th>
+                    </tr>
+                    {% for tag in tags %}
+                        <tr bgcolor = "White">
+                            <td align="center">{{tag[1]}}</td>
+                            <td align="center">{{tag[2]}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}>
+                <p>We do not have tags presently.</p>
+            {% endif %}
+
+            <br>
+            <p class="back-button"><a id="back" href="/"><-- Back to questions</a></p>
+        </div>
+    </body>
+</html>

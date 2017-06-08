@@ -103,7 +103,11 @@ def add_tag_form(question_id):
 
 @app.route('/question/<question_id>/existing-tag/<existing_tag_id>')
 def add_existing_tag_to_question(question_id, existing_tag_id):
-    data_manager.add_existing_tag_to_question(question_id, existing_tag_id)
+    try:
+        data_manager.add_existing_tag_to_question(question_id, existing_tag_id)
+    except Exception as e:
+        existing_tags = data_manager.get_existing_tags()
+        return render_template('new_tag.html', question_id=question_id, existing_tags=existing_tags, assigned_tag=True)
     return redirect(url_for('display_q_and_a', question_id=question_id))
 
 
@@ -191,6 +195,18 @@ def user_page(user_id):
 
     return render_template("user_page.html", user_id=user_id, user_name=user_name, questions=questions,
                            answer_count_list=answer_count_list, answers=answers, comments=comments)
+
+
+@app.route('/tags', methods=['GET', 'POST'])
+def taglist():
+    if request.method == "POST":
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        tags = data_manager.get_tags(key[0], value[0])
+    else:
+        tags = data_manager.get_tags()
+    return render_template('taglist.html', tags=tags)
 
 
 if __name__ == '__main__':

@@ -15,12 +15,15 @@
             {% for existing_tag in existing_tags %}
                 <p class="button" id="existing-tag"><a href="/question/{{ question_id }}/existing-tag/{{ existing_tag[0]}}">{{ existing_tag[1] }}</a></p>
             {% endfor %}
+            {% if assigned_tag %}
+            <p id="warning">This tag is already assigned to this question!</p>
+            {% endif %}
             </div>
             {% endif %}
 
             <h4>Create a new tag:</h4>
             {% if new_tag_error_message %}
-            <p>{{new_tag_error_message}}</p>
+            <p id="warning">{{new_tag_error_message}}</p>
             {% endif %}
             <form action='/question/{{ question_id }}/new-tag/add' method='POST'>
             <p><input type="text" name="name" required maxlength="20"></p>
