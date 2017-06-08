@@ -173,6 +173,17 @@ def list_users():
     return render_template("list_users.html", users=users)
 
 
+@app.route('/tags', methods=['GET', 'POST'])
+def taglist():
+    if request.method == "POST":
+        parameters = request.args.to_dict()
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        tags = data_manager.get_tags(key[0], value[0])
+    else:
+        tags = data_manager.get_tags()
+    return render_template('taglist.html', tags=tags)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
