@@ -32,7 +32,8 @@ def listing():
 
 @app.route('/new_question')
 def question_sheet():
-    return render_template('new_question.html')
+    users = data_manager.get_existing_users()
+    return render_template('new_question.html', users=users)
 
 
 @app.route('/new_question/add', methods=['POST'])
@@ -47,6 +48,7 @@ def add_question():
     new_row.append(request.form['question_title'])
     new_row.append(request.form['question'].replace("\r\n", "\n"))
     new_row.append(None)
+    new_row.append(request.form['user'])
     data_manager.write_question_to_db(new_row)
     [[question_id]] = data_manager.query_result(
         """SELECT id FROM question WHERE submission_time = %s""", (time_now,))

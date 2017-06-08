@@ -77,8 +77,8 @@ def write_question_to_db(row):
 
     @row: list of strings
     '''
-    query_result("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                    VALUES(%s, %s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5], row[6]))
+    query_result("""INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s);""", (row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
 
 
 def answers_for_question(question_id):
