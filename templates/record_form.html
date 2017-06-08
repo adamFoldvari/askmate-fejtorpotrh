@@ -41,7 +41,7 @@
             <p class="back-button"><a id="back" href="/"><-- Back to questions</a></p>
         {% else %}
             <h3>Add new question:</h2>
-            <form action='/new_question/add' method='POST'>
+            <form action='/record_form/add' method='POST'>
                 <label for="user">Choose user:</label><br>
                 <select name="user" id="user">
                     {% for user in users %}

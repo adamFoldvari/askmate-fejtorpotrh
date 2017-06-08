@@ -101,7 +101,7 @@
             <p class="back-button"><a id="back" href="/"> <-- Back to questions</a></p>
             {% else %}
                 <br>
-                <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
+                <form action="{{ url_for('question_details', question_id=question[0]) }}" method="post" class="new_answer">
                     <label for="new_answer">Your answer:</label><br>
                     <p><textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea></p>
                     <label for="user">Choose user:</label> <br>
