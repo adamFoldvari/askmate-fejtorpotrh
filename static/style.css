@@ -27,6 +27,10 @@ h1 {
     padding: 0.2em 3.3em;
     margin: 0;
     background-color: #143153;
+    background-image: url("icons/printed_circuit7_white.png");
+    background-repeat: no-repeat;
+    background-position: 87.5% center;
+    background-size: 15%;
 }
 
 h2 {
