@@ -293,3 +293,11 @@ a#back:hover {
 .button a#show-all-question {
     margin-left: 0;
 }
+
+strong {
+    font-size: 1.1em;
+}
+
+strong a {
+    padding: 0;
+}
