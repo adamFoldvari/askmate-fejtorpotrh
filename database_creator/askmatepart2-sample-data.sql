@@ -75,7 +75,7 @@ DROP TABLE IF EXISTS public.users;
 DROP SEQUENCE IF EXISTS public.users_id_seq;
 CREATE TABLE users (
     id serial NOT NULL,
-    name TEXT,
+    name TEXT UNIQUE,
     register_date timestamp without time zone
 );
 

@@ -35,14 +35,17 @@ def query_result(*query):
         rows = cursor.fetchall()
         rows = [list(row) for row in rows]
     except psycopg2.OperationalError as e:
+        print('OperationalError')
         print(e)
     except psycopg2.ProgrammingError as e:
         print(e)
         print("Nothing to print")
         rows = ""
     except psycopg2.IntegrityError as e:
+        print('IntegrityError')
         print(e)
         rows = ""
+        raise e from query_result()
     finally:
         if conn:
             conn.close()

@@ -158,8 +158,11 @@ def registration():
         user_name = request.form['username']
         time_now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         row = [user_name, time_now]
-        data_manager.register_user(row)
-        return redirect('/')
+        try:
+            data_manager.register_user(row)
+            return redirect('/')
+        except Exception as e:
+            return render_template('new_question.html', registration=True, user_exists=True)
     return render_template('new_question.html', registration=True)
 
 
