@@ -18,13 +18,7 @@ def list_latest_five_question():
 
 @app.route('/list', methods=['POST', 'GET'])
 def listing():
-    if request.method == "POST":
-        parameters = request.args.to_dict()
-        key = list(parameters.keys())
-        value = list(parameters.values())
-        ordered_questions = data_manager.get_questions(key[0], value[0])
-    else:
-        ordered_questions = data_manager.get_questions()
+    ordered_questions = data_manager.sorting_handler(request.method, request.args.to_dict(), data_manager.get_questions)
     answer_count_list = data_manager.answer_count
     return render_template("questionlist.html",
                            questions=ordered_questions, answer_count_list=answer_count_list)
@@ -172,25 +166,14 @@ def registration():
 
 @app.route('/list_users', methods=['GET', 'POST'])
 def list_users():
-    if request.method == "POST":
-        parameters = request.args.to_dict()
-        key = list(parameters.keys())
-        value = list(parameters.values())
-        users = data_manager.get_existing_users(key[0], value[0])
-    else:
-        users = data_manager.get_existing_users()
+    users = data_manager.sorting_handler(request.method, request.args.to_dict(), data_manager.get_existing_users)
     return render_template("list_users.html", users=users)
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
 def user_page(user_id):
-    if request.method == "POST":
-        parameters = request.args.to_dict()
-        key = list(parameters.keys())
-        value = list(parameters.values())
-        user_name, questions, answers, comments = data_manager.user_data(user_id, key[0], value[0])
-    else:
-        user_name, questions, answers, comments = data_manager.user_data(user_id)
+    user_name, questions, answers, comments = data_manager.sorting_handler(request.method, request.args.to_dict(), 
+                                                                           data_manager.user_data, user_id=user_id)
     answer_count_list = data_manager.answer_count
 
     return render_template("user_page.html", user_id=user_id, user_name=user_name, questions=questions,
@@ -199,13 +182,7 @@ def user_page(user_id):
 
 @app.route('/tags', methods=['GET', 'POST'])
 def taglist():
-    if request.method == "POST":
-        parameters = request.args.to_dict()
-        key = list(parameters.keys())
-        value = list(parameters.values())
-        tags = data_manager.get_tags(key[0], value[0])
-    else:
-        tags = data_manager.get_tags()
+    tags = data_manager.sorting_handler(request.method, request.args.to_dict(), data_manager.get_tags)
     return render_template('taglist.html', tags=tags)
 
 

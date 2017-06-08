@@ -67,7 +67,7 @@ def get_questions(field_name='submission_time', sorting_direction='DESC', first_
     else:
         questions = query_result("""SELECT question.*, users.name FROM question
                LEFT JOIN users ON question.user_id = users.id
-               ORDER BY %s || quote_nullable(%s)""", (field_name, sorting_direction))
+               ORDER BY """ + field_name + " " + sorting_direction + ";")
     MESSAGE = 5
     for question in questions:
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
@@ -221,3 +221,21 @@ def get_tags(field_name='name', sorting_direction='ASC'):
                             ORDER BY """ + field_name + " " + sorting_direction + ";")
     return tags
 
+
+def sorting_handler(request_method, parameters, query_function, user_id=False):
+    print(request_method)
+    if request_method == "POST":
+        key = list(parameters.keys())
+        value = list(parameters.values())
+        print(key[0], value[0])
+        if user_id:
+            result = query_function(user_id, key[0], value[0])
+        else:
+            result = query_function(key[0], value[0])
+    else:
+        print('YEAH')
+        if user_id:
+            result = query_function(user_id)
+        else:
+            result = query_function()
+    return result
