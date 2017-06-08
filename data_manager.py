@@ -221,7 +221,6 @@ def get_tags(field_name='name', sorting_direction='ASC'):
 
 
 def sorting_handler(request_method, parameters, query_function, user_id=False):
-    print(request_method)
     if request_method == "POST":
         key = list(parameters.keys())
         value = list(parameters.values())
@@ -231,7 +230,6 @@ def sorting_handler(request_method, parameters, query_function, user_id=False):
         else:
             result = query_function(key[0], value[0])
     else:
-        print('YEAH')
         if user_id:
             result = query_function(user_id)
         else:
