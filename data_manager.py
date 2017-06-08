@@ -172,5 +172,19 @@ def register_user(row):
 
 
 def get_existing_users(field_name='name', sorting_direction='ASC'):
-    users = query_result("SELECT * FROM users ORDER BY " + field_name + " " + sorting_direction)
+    users = query_result("SELECT * FROM users ORDER BY " + field_name + " " + sorting_direction + ";")
     return users
+
+
+def get_tags(field_name='name', sorting_direction='ASC'):
+    if field_name == 'count':
+        tags = query_result("""SELECT t.id, t.name, COUNT(qt.tag_id) AS count FROM tag AS t
+                        LEFT JOIN question_tag AS qt ON t.id=qt.tag_id
+                        GROUP BY t.id, t.name
+                        ORDER BY """ + field_name + " " + sorting_direction + ", t.name ASC;")
+    else:
+        tags = query_result("""SELECT t.id, t.name, COUNT(qt.tag_id) AS count FROM tag AS t
+                            LEFT JOIN question_tag AS qt ON t.id=qt.tag_id
+                            GROUP BY t.id, t.name
+                            ORDER BY """ + field_name + " " + sorting_direction + ";")
+    return tags
