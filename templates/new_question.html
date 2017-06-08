@@ -17,28 +17,34 @@
         {% if question_id %}
             <h3>Add new comment:</h3>
             <form action='/question/{{ question_id }}/new-comment/add' method='POST'>
-            <label for="comment">Your comment:</label>
-            <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
-            <label for="username">Choose user:</label><br>
-            <select name="user_id" id="user_id">
-                {% for user in users %}
-                    <option value= {{ user[0] }}>{{ user[1] }}</option>
-                {% endfor %}
-            </select>
-            <p><input type="submit" value="Comment" id="updated"></p>
+                <label for="comment">Your comment:</label>
+                <p><textarea rows="8" cols="50" name="comment" id="comment" minlength="10" required></textarea></p>
+                <label for="user_id">Choose user:</label><br>
+                <select name="user_id" id="user_id">
+                    {% for user in users %}
+                        <option value= {{ user[0] }}>{{ user[1] }}</option>
+                    {% endfor %}
+                </select>
+                <p><input type="submit" value="Comment" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/question/{{ question_id }}"><-- Back to question</a></p>
         {% elif registration %}
             <h3>Register new user:</h3>
             <form action='/registration' method='POST'>
-            <label for="username">Username:</label>
-            <p><textarea rows="1" cols="10" name="username" id="username" minlength="3" required></textarea></p>
-            <p><input type="submit" value="Register" id="updated"></p>
+                <label for="username">Username:</label>
+                <p><textarea rows="1" cols="10" name="username" id="username" minlength="3" required></textarea></p>
+                <p><input type="submit" value="Register" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/"><-- Back to questions</a></p>
         {% else %}
             <h3>Add new question:</h2>
             <form action='/new_question/add' method='POST'>
+                <label for="user">Choose user:</label><br>
+                <select name="user" id="user">
+                    {% for user in users %}
+                        <option value= {{ user[0] }}>{{ user[1] }}</option>
+                    {% endfor %}
+                </select><br>
                 <label for="question_title"> Question title:</label>
                 <p><input type="text" name="question_title" id="question_title" required></p>
                 <label for="question"> Your question: </label>
