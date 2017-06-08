@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # Listing
 @app.route('/', methods=['POST', 'GET'])
-def list_lates_five_question():
+def list_latest_five_question():
     ordered_questions = data_manager.get_questions(first_five_only=True)
     answer_count_list = data_manager.answer_count
     return render_template("questionlist.html",
