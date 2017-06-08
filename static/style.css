@@ -293,3 +293,7 @@ a#back:hover {
 .button a#show-all-question {
     margin-left: 0;
 }
+
+p#warning {
+    color: #aa1100;
+}

@@ -33,6 +33,9 @@
             <form action='/registration' method='POST'>
             <label for="username">Username:</label>
             <p><textarea rows="1" cols="10" name="username" id="username" minlength="3" required></textarea></p>
+            {% if user_exists %}
+                <p id="warning"> This user name is already exists! </p>
+            {% endif %}
             <p><input type="submit" value="Register" id="updated"></p>
             </form>
             <p class="back-button"><a id="back" href="/question"><-- Back to questions</a></p>
