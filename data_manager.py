@@ -159,18 +159,16 @@ def get_comments_for_question(question_id):
 
 def search(search_text):
     search_text = '%{}%'.format(search_text.lower())
-    answer_q_ids = query_result("""SELECT question_id FROM answer WHERE LOWER(message) LIKE %s;""", (search_text,))
-    questions = query_result("""SELECT * FROM question WHERE LOWER(title) LIKE %s;""", (search_text,))
-    if answer_q_ids:
-        for answer_q_id in answer_q_ids:
-            if answer_q_id:
-                [answer_q_id] = answer_q_id
-                [question_to_answer] = query_result("""SELECT * FROM question WHERE id = %s;""", (answer_q_id,))
-                questions.append(question_to_answer)
-    # Convert list to set to delete duplicates
-    questions = set(map(tuple, questions))
-    questions = list(map(list, questions))
 
+    if search_text == '%%':
+        return get_questions()
+
+    questions = query_result("""SELECT DISTINCT question.* FROM question
+                                INNER JOIN answer
+                                ON question.id = answer.question_id
+                                WHERE LOWER(question.title) LIKE %s
+                                OR LOWER(answer.message) LIKE %s;""", (search_text, search_text))
+    # The index of the message data in questions list
     MESSAGE = 5
     for question in questions:
         question[MESSAGE] = Markup(question[MESSAGE].replace("\n", "<br>"))
