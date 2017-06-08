@@ -102,9 +102,9 @@
             {% else %}
                 <br>
                 <form action="{{ url_for('display_q_and_a', question_id=question[0]) }}" method="post" class="new_answer">
-                    <label for="new_answer">Your Answer:</label><br>
+                    <label for="new_answer">Your answer:</label><br>
                     <p><textarea name="new_answer" id="new_answer" required minlength="10" rows="4" cols="47"></textarea></p>
-                    <label for="user">Choose User:</label> <br>
+                    <label for="user">Choose user:</label> <br>
                         <select name="user" id="user">
                         {% for user in users %}
                         <option value= {{ user[0] }}>{{ user[1] }}</option>

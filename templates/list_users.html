@@ -9,7 +9,7 @@
     <h1>AskMate</h1>
     <div id="content-wrapper">
         <h3>Users</h3>
-        <p class="button"><a id="new-user" href='/registration'>New User</a></p>
+        <p class="button"><a id="new-user" href='/registration'>New user</a></p>
 
         {% if users %}
         <table border="2" bgcolor="Gainsboro">
@@ -38,10 +38,7 @@
                     <td align="center">{{user[2]}}</td>
                     <td align="center" class="link">
                         <a href="/user/{{user[0]}}"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
-                    </td> 
-                    <!-- <td align='center' class="link"> 
-                        <a href='/user/delete/{{user[0]}}'><i class="fa fa-trash fa-3x" aria-hidden="true"></i></a>
-                    </td> -->
+                    </td>
                 </tr>
             {% endfor %}
         </table>

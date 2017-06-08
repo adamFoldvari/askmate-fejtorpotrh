@@ -1,5 +1,5 @@
 @import url('normalize.css');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
 
 html {
     box-sizing: border-box;
@@ -290,8 +290,22 @@ a#back:hover {
 }
 
 .button a#new-question,
-.button a#show-all-question {
+.button a#show-all-question,
+.button a#registration,
+.button a#list-users,
+.button a#new-user {
     margin-left: 0;
+}
+
+.buttons {
+    width: 40%;
+    text-align: left;
+    padding: 0 0 1em;
+}
+
+.buttons p {
+    display: inline;
+    padding-right: 1em;
 }
 
 strong {
