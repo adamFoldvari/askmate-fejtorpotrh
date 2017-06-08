@@ -32,9 +32,9 @@
             <h3>Register new user:</h3>
             <form action='/registration' method='POST'>
                 <label for="username">Username:</label>
-                <p><textarea rows="1" cols="10" name="username" id="username" minlength="3" required></textarea></p>
+                <p><input type="text" size="20" minlength="3" maxlength="20" name="username" id="username" required></p>
                 {% if user_exists %}
-                    <p id="warning"> This user name is already exists! </p>
+                    <p class="warning"> This user name is already exists! </p>
                 {% endif %}
                 <p><input type="submit" value="Register" id="updated"></p>
             </form>
