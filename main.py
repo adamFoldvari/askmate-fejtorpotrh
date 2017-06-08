@@ -160,8 +160,6 @@ def registration():
             data_manager.register_user(row)
             return redirect('/')
         except Exception as e:
-            print('caught exception')
-            print(e)
             return render_template('new_question.html', registration=True, user_exists=True)
     return render_template('new_question.html', registration=True)
 
