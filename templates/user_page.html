@@ -181,6 +181,8 @@
                     <td align="center">{{ comment[4] }}</td>
                     {% if comment[7] %}
                     <td align="center" class="title">{{ comment[7] }}</td>
+                    {% elif comment[10] %}
+                    <td align="center" class="title">{{ comment[10] }}</td>
                     {% else %}
                     <td align="center">-</td>
                     {% endif %}
@@ -191,7 +193,11 @@
                     {% endif %}
                     <td style="word-wrap: break-word;" class="title">{{comment[3]}}</td>
                     <td align="center" class="link">
+                    {% if comment[1] %}
+                        <a href="/question/{{ comment[1] }}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                    {% elif comment[9] %}
                         <a href="/question/{{ comment[9] }}/viewcount"><i class="fa fa-eye fa-3x" aria-hidden="true"></i></a>
+                    {% endif %}   
                     </td>    
                 </tr>
             {% endfor %}
