@@ -15,18 +15,18 @@
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Name<br>
-                    <form action="{{ url_for('list_users') + '?name=ASC'}}" method="POST">
+                    <form action="{{ url_for('list_users') + '?sort_field=name&direction=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('list_users') + '?name=DESC'}}" method="POST">
+                    <form action="{{ url_for('list_users') + '?sort_field=name&direction=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Registry Date<br>
-                    <form action="{{ url_for('list_users') + '?register_date=ASC'}}" method="POST">
+                    <form action="{{ url_for('list_users') + '?sort_field=register_date&direction=ASC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('list_users') + '?register_date=DESC'}}" method="POST">
+                    <form action="{{ url_for('list_users') + '?sort_field=register_date&direction=DESC'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>

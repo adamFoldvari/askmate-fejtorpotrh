@@ -186,22 +186,26 @@ def get_existing_users(field_name='name', sorting_direction='ASC'):
     return users
 
 
-def user_data(user_id, field_name="id", sorting_direction='ASC'):
+def user_data(user_id, field_name='id', sorting_direction='ASC', table=''):
     [[user_name]] = query_result("""SELECT name FROM users where id = %s;""", (user_id,))
-    if field_name:
-        questions = query_result("""SELECT * from question
-                                    WHERE user_id = """ + user_id + """ ORDER BY """ +
-                                 field_name + " " + sorting_direction + ";")
-    else:
-        questions = query_result("""SELECT * from question WHERE user_id = %s;""", (user_id,))
+    questions_order = answers_order = comments_order = ""
+    query_order = """ ORDER BY """ + field_name + " " + sorting_direction
+    if table == "question":
+        questions_order = query_order
+    elif table == "answer":
+        answers_order = query_order
+    elif table == "comment":
+        comments_order = query_order
+    questions = query_result("""SELECT * from question
+                                WHERE user_id = """ + user_id + questions_order + ";")
     answers = query_result("""SELECT answer.*, question.title  from answer
-                              JOIN question ON answer.question_id = question.id
-                              WHERE answer.user_id = %s;""", (user_id,))
-    comments = query_result("""SELECT comment.*, question.title, answer.message, question_2.id, question_2.title FROM comment
-                               LEFT JOIN question ON comment.question_id = question.id
-                               LEFT JOIN answer ON comment.answer_id = answer.id
-                               LEFT JOIN (SELECT * FROM question) AS question_2 ON question_2.id = answer.question_id
-                               WHERE comment.user_id= %s;""", (user_id,))
+                            JOIN question ON answer.question_id = question.id
+                            WHERE answer.user_id = %s""" + answers_order + ";", (user_id,))
+    comments = query_result("""SELECT comment.*, question.title, answer.message, question_2.id FROM comment
+                            LEFT JOIN question ON comment.question_id = question.id
+                            LEFT JOIN answer ON comment.answer_id = answer.id
+                            LEFT JOIN (SELECT * FROM question) AS question_2 ON question_2.id = answer.question_id
+                            WHERE comment.user_id = %s""" + comments_order + ";", (user_id,))
 
     return user_name, questions, answers, comments
 
@@ -222,13 +226,13 @@ def get_tags(field_name='name', sorting_direction='ASC'):
 
 def sorting_handler(request_method, parameters, query_function, user_id=False):
     if request_method == "POST":
-        key = list(parameters.keys())
-        value = list(parameters.values())
-        print(key[0], value[0])
+        sort_field = parameters['sort_field']
+        direction = parameters['direction']
+        table = parameters.get('table', None)
         if user_id:
-            result = query_function(user_id, key[0], value[0])
+            result = query_function(user_id, sort_field, direction, table)
         else:
-            result = query_function(key[0], value[0])
+            result = query_function(sort_field, direction)
     else:
         if user_id:
             result = query_function(user_id)

@@ -15,35 +15,35 @@
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Submission time<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=ASC&table=question'}}" method="GET">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=DESC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Answers</th>
                 <th>Views<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=view_number&direction=ASC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=view_number&direction=DESC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Votes<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=vote_number&direction=ASC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=vote_number&direction=DESC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Question<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=ASC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=DESC&table=question'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
@@ -82,34 +82,34 @@
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Submission time<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=ASC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=DESC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Question title<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
+                <th>Question<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=question.title&direction=ASC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=question.title&direction=DESC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Votes<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=vote_number&direction=ASC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=vote_number&direction=DESC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Answer<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=ASC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=DESC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
@@ -143,34 +143,34 @@
         <table border="2" bgcolor="Gainsboro">
             <tr align="center">
                 <th>Submission time<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=ASC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?submission_time=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=submission_time&direction=DESC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Question title<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=ASC'}}" method="POST">
+                <th>Question<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=question.title&direction=ASC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?view_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=question.title&direction=DESC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
-                <th>Answer title<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=ASC'}}" method="POST">
+                <th>Answer<br>
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=answer.message&direction=ASC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?vote_number=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=answer.message&direction=DESC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>
                 <th>Comment<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=ASC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=comment.message&direction=ASC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?title=DESC'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=comment.message&direction=DESC&table=comment'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
