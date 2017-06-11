@@ -188,7 +188,7 @@ def get_existing_users(field_name='name', sorting_direction='ASC'):
 
 def user_data(user_id, field_name='id', sorting_direction='ASC', table=''):
     [[user_name]] = query_result("""SELECT name FROM users where id = %s;""", (user_id,))
-    questions_order = answers_order = comments_order = ""
+    questions_order = answers_order = comments_order = " ORDER BY submission_time DESC"
     query_order = """ ORDER BY """ + field_name + " " + sorting_direction
     if table == "question":
         questions_order = query_order
