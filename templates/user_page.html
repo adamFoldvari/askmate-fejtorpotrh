@@ -106,10 +106,10 @@
                     </form>
                 </th>
                 <th>Answer<br>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=ASC&table=answer'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=answer.message&direction=ASC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                     </form>
-                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=title&direction=DESC&table=answer'}}" method="POST">
+                    <form action="{{ url_for('user_page', user_id=user_id) + '?sort_field=answer.message&direction=DESC&table=answer'}}" method="POST">
                         <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                     </form>
                 </th>            
