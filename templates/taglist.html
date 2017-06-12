@@ -13,18 +13,18 @@
                 <table border="2" bgcolor="Gainsboro">
                     <tr align="center">
                         <th>Tag name<br>
-                            <form action="{{ url_for('taglist') + '?name=ASC'}}" method="POST">
+                            <form action="{{ url_for('taglist') + '?sort_field=name&direction=ASC'}}" method="POST">
                                 <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                             </form>
-                            <form action="{{ url_for('taglist') + '?name=DESC'}}" method="POST">
+                            <form action="{{ url_for('taglist') + '?sort_field=name&direction=DESC'}}" method="POST">
                                 <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                             </form>
                         </th>
                         <th>Occurence<br>
-                            <form action="{{ url_for('taglist') + '?count=ASC'}}" method="POST">
+                            <form action="{{ url_for('taglist') + '?sort_field=count&direction=ASC'}}" method="POST">
                                 <input class="arrow-icon" type="image" src="/static/icons/arrow_down.png" alt="Submit"/>
                             </form>
-                            <form action="{{ url_for('taglist') + '?count=DESC'}}" method="POST">
+                            <form action="{{ url_for('taglist') + '?sort_field=count&direction=DESC'}}" method="POST">
                                 <input class="arrow-icon" type="image" src="/static/icons/arrow_up.png" alt="Submit"/>
                             </form>
                         </th>

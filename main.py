@@ -172,7 +172,7 @@ def list_users():
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
 def user_page(user_id):
-    user_name, questions, answers, comments = data_manager.sorting_handler(request.method, request.args.to_dict(), 
+    user_name, questions, answers, comments = data_manager.sorting_handler(request.method, request.args.to_dict(),
                                                                            data_manager.user_data, user_id=user_id)
     answer_count_list = data_manager.answer_count
 
